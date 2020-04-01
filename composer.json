@@ -1,0 +1,39 @@
+{
+    "name": "priorist/ais-sdk",
+    "description": "A PHP library to interact with the RESTful API of the Academic Information System (AIS).",
+    "type": "library",
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "guzzlehttp/guzzle": "^6.5",
+        "league/oauth2-client": "^2.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "priorist GmbH",
+            "email": "contact@priorist.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Priorist\\AIS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Priorist\\AIS\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests"
+    }
+}

@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+
+    test:
+        environment:
+            AIS_URL: http://ais.stage.priorist.net
+            CLIENT_ID:
+            CLIENT_SECRET:

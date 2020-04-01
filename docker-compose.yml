@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+
+    composer:
+        image: composer
+        volumes:
+            - .:/app
+
+
+    test:
+        image: priorist/phpunit
+        build:
+            context: .
+        entrypoint: vendor/bin/phpunit --bootstrap vendor/autoload.php --colors=always --whitelist src/Client --coverage-text tests
+        working_dir: /app
+        volumes:
+            - .:/app
+        environment:
+            AIS_URL: ${AIS_URL}
+            CLIENT_ID: ${CLIENT_ID}
+            CLIENT_SECRET: ${CLIENT_SECRET}
+
+
+    docs:
+        image: phpdoc/phpdoc
+        volumes:
+            - .:/data
+        command: -d ./src -t ./docs
