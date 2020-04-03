@@ -43,6 +43,29 @@ foreach ($upcomingEvents as $event) {
 ```
 
 
+### Categories
+
+#### Single category for a given ID
+
+```php
+$location = $client->category->findById(4711);
+
+if ($category !== null)
+    echo $category['name'] . "\n";
+}
+```
+
+#### List of all categories
+
+```php
+$categories = $client->category->findAll();
+
+foreach ($categories as $category) {
+    echo $category['name'] . "\n";
+}
+```
+
+
 ### Event locations
 
 #### Single location for a given ID
@@ -66,6 +89,29 @@ foreach ($locations as $location) {
 ```
 
 
+### Lecturers
+
+#### Single lecturer for a given ID
+
+```php
+$lecturer = $client->lecturer->findById(4711);
+
+if ($lecturer !== null)
+    echo $lecturer['name'] . "\n";
+}
+```
+
+#### List of all lecturers
+
+```php
+$lecturers = $client->lecturer->findAll();
+
+foreach ($lecturers as $lecturer) {
+    echo $lecturer['name'] . "\n";
+}
+```
+
+
 ## Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
@@ -79,6 +125,16 @@ $client->event->queryCollection([
     'first_day__gte' => date('Y-m-d'),
 ]);
 ```
+
+You can even call any endpoint you like, even the ones without an actual repository:
+
+```php
+$client->getRestClient()->queryCollection('events', [
+    'ordering' => 'first_day',
+    'first_day__gte' => date('Y-m-d'),
+]);
+```
+
 
 
 ## Run tests
