@@ -108,3 +108,27 @@ docker-compose run --rm test --coverage-html test_results/coverage && open test_
 ```shell
 docker-compose run --rm docs
 ```
+
+
+## Build *.phar archive
+
+To use the SDK in legacy applications, you may build an include a *.phar package
+in you application.
+
+Download phar-composer first:
+
+```shell
+curl -JOL https://clue.engineering/phar-composer-latest.phar
+```
+
+Rename to `phar-composer.phar` and build the archive:
+
+```shell
+docker-compose run --rm phar
+```
+
+To use the client, include the autoload of the archive:
+
+```php
+include 'ais-sdk.phar/vendor/autoload.php';
+```

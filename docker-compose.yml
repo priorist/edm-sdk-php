@@ -8,6 +8,14 @@ services:
             - .:/app
 
 
+    phar:
+        image: composer
+        volumes:
+            - .:/app
+        entrypoint: /usr/local/bin/php -d phar.readonly=off phar-composer.phar
+        command: build .
+
+
     test:
         image: priorist/phpunit
         build:

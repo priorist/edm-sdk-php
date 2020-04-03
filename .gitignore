@@ -1,3 +1,4 @@
 /vendor/
 docker-compose.override.yml
 /test_results
+*.phar
