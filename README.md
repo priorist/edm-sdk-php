@@ -112,7 +112,30 @@ foreach ($lecturers as $lecturer) {
 ```
 
 
-## Generic requests
+### Tags
+
+#### Single tag for a given ID
+
+```php
+$lecturer = $client->tag->findById(4711);
+
+if ($tag !== null)
+    echo $tag['name'] . "\n";
+}
+```
+
+#### List of all tags
+
+```php
+$tags = $client->tag->findAll();
+
+foreach ($tags as $tag) {
+    echo $tag['name'] . "\n";
+}
+```
+
+
+### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
 generic methods `queryCollection($params = [])` and `querySingle(int $id, array $params = [])`.
