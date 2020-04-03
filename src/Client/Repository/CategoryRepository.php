@@ -4,21 +4,8 @@ namespace Priorist\AIS\Client\Repository;
 use Priorist\AIS\Client\Collection;
 
 
-class CategoryRepository extends AbstractRepository
+class CategoryRepository extends AbstractSearchableRepository
 {
-    /**
-     * Returns a single category.
-     *
-     * @param int $id The unique ID of the category
-     *
-     * @return array The category as array or NULL, if matching category was not found
-     */
-    public function findById(int $id) : ?array
-    {
-        return $this->querySingle($id, ['expand' => '~all']);
-    }
-
-
     /**
      * Returns a collection of all child categories of a given parent ID
      *
@@ -46,22 +33,6 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->queryCollection([
             'parent_category__isnull' => 1,
-        ], $params);
-    }
-
-
-    /**
-     * Returns a collection of categories, matched by a given search phrase.
-     *
-     * @param string $searchPhrase The search phrase
-     * @param array $params Optional query parameters to filter the results
-     *
-     * @return Collection The collection of categories
-     */
-    public function findBySearchPhrase(string $searchPhrase, array $params = []) : Collection
-    {
-        return $this->queryCollection([
-            'search' => $searchPhrase,
         ], $params);
     }
 

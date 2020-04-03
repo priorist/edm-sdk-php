@@ -4,21 +4,8 @@ namespace Priorist\AIS\Client\Repository;
 use Priorist\AIS\Client\Collection;
 
 
-class EventRepository extends AbstractRepository
+class EventRepository extends AbstractSearchableRepository
 {
-    /**
-     * Returns a single event.
-     *
-     * @param int $id The unique ID of the event to be retrieved
-     *
-     * @return array The event as are or NULL, if matching event was not found
-     */
-    public function findById(int $id) : ?array
-    {
-        return $this->querySingle($id, ['expand' => '~all']);
-    }
-
-
     /**
      * Returns a collection of upcoming events belonging to certain categories.
      *

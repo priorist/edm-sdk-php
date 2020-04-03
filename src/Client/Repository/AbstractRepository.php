@@ -16,12 +16,6 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function findAll(array $params = []) : Collection
-    {
-        return $this->queryCollection($params);
-    }
-
-
     public function querySingle(int $id, array $params = [], array $overrideParams = []) : ?array
     {
         return $this->getClient()->querySingle(

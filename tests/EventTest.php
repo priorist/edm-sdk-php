@@ -84,4 +84,18 @@ class EventTest extends TestCase
         $this->assertInstanceOf(Collection::class, $events);
         $this->assertGreaterThan(0, $events->count());
     }
+
+
+    /**
+     * @depends testSingle
+     */
+    public function testSearch(array $event)
+    {
+        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+
+        $events = $client->event->findBySearchPhrase($event['event_base_name']);
+
+        $this->assertInstanceOf(Collection::class, $events);
+        $this->assertGreaterThan(0, $events->count());
+    }
 }
