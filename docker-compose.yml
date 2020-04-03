@@ -13,7 +13,7 @@ services:
         volumes:
             - .:/app
         entrypoint: /usr/local/bin/php -d phar.readonly=off phar-composer.phar
-        command: build .
+        command: build . ais-sdk.phar
 
 
     test:

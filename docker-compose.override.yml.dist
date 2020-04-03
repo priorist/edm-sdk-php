@@ -4,6 +4,6 @@ services:
 
     test:
         environment:
-            AIS_URL: http://ais.stage.priorist.net
+            AIS_URL: http://ais.example.com
             CLIENT_ID:
             CLIENT_SECRET:

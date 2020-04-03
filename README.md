@@ -3,11 +3,6 @@
 A PHP library to interact with the RESTful API of the Academic Information System (AIS).
 
 
-## Table of contents
-
-[[_TOC_]]
-
-
 ## Install with Composer
 
 ```shell
@@ -118,10 +113,10 @@ in you application.
 Download phar-composer first:
 
 ```shell
-curl -JOL https://clue.engineering/phar-composer-latest.phar
+curl --location --output phar-composer.phar https://clue.engineering/phar-composer-latest.phar
 ```
 
-Rename to `phar-composer.phar` and build the archive:
+Build the archive:
 
 ```shell
 docker-compose run --rm phar
