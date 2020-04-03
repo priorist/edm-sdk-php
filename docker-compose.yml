@@ -34,4 +34,4 @@ services:
         image: phpdoc/phpdoc
         volumes:
             - .:/data
-        command: -d ./src -t ./docs
+        command: -d ./src/Client -t ./docs --title "AIS SDK" --visibility "public"

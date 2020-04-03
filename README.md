@@ -180,7 +180,7 @@ docker-compose run --rm test --coverage-html test_results/coverage && open test_
 ## Generate docs
 
 ```shell
-docker-compose run --rm docs
+docker-compose run --rm docs && open docs/index.html
 ```
 
 
