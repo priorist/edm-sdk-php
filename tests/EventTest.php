@@ -66,6 +66,23 @@ class EventTest extends TestCase
     /**
      * @depends testSingle
      */
+    public function testEnrollment(array $event)
+    {
+        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+
+        $enrollment = [
+            'event' => $event['id'],
+        ];
+
+        $result = $client->enrollment->create($enrollment);
+
+        $this->assertIsArray($result);
+    }
+
+
+    /**
+     * @depends testSingle
+     */
     public function testByCategory(array $event)
     {
         $this->assertArrayHasKey('categories', $event['event_base']);

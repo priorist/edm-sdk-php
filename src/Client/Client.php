@@ -71,7 +71,7 @@ class Client
      */
     public function logIn(string $userName, string $password) : AccessToken
     {
-        return $this->getRestClient()->login($userName, $password);
+        return $this->getRestClient()->logIn($userName, $password);
     }
 
 

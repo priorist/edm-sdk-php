@@ -7,10 +7,12 @@ use Priorist\AIS\Client\Collection;
 
 interface RestClient
 {
-    public function querySingle(string $endpoint, int $id, array $params) : ?array;
-    public function queryCollection(string $endpoint, array $params) : Collection;
-    public function query(string $endpoint, array $params = []) : ?array;
-    public function queryRaw(string $endpoint, array $params = []) : ?string;
+    public function fetchSingle(string $endpoint, int $id, array $params) : ?array;
+    public function fetchCollection(string $endpoint, array $params) : Collection;
+    public function fetch(string $endpoint, array $params = []) : ?array;
+    public function create(string $endpoint, array $data = [], array $params = []) : ?array;
+    public function queryJson(string $method, string $endpoint, array $params = [], array $body = null) : ?array;
+    public function query(string $method, string $endpoint, array $params = [], array $body = null) : ?string;
     public function login(string $userName, string $password) : AccessToken;
     public function getUser();
     public function setAccessToken(AccessToken $accessToken) : RestClient;

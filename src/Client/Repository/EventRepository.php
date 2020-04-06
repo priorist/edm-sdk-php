@@ -45,7 +45,7 @@ class EventRepository extends AbstractSearchableRepository
      */
     public function findUpcoming(array $params = []) : Collection
     {
-        return $this->queryCollection([
+        return $this->fetchCollection([
             'first_day__gte' => date('Y-m-d'),
         ], $params);
     }

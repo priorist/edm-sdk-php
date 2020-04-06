@@ -37,21 +37,33 @@ class AisClient implements RestClient
     }
 
 
-    public function querySingle(string $endpoint, int $id, array $params) : ?array
+    public function fetchSingle(string $endpoint, int $id, array $params) : ?array
     {
-        return $this->query(sprintf('%s/%u', $endpoint, $id), $params);
+        return $this->fetch(sprintf('%s/%u', $endpoint, $id), $params);
     }
 
 
-    public function queryCollection(string $endpoint, array $params) : Collection
+    public function fetchCollection(string $endpoint, array $params) : Collection
     {
-        return new Collection($this->queryRaw($endpoint, $params));
+        return new Collection($this->query('GET', $endpoint, $params));
     }
 
 
-    public function query(string $endpoint, array $params = []) : ?array
+    public function fetch(string $endpoint, array $params = []) : ?array
     {
-        $result = $this->queryRaw($endpoint, $params);
+        return $this->queryJson('GET', $endpoint, $params);
+    }
+
+
+    public function create(string $endpoint, array $data = [], array $params = []) : ?array
+    {
+        return $this->queryJson('POST', $endpoint, $params, $data);
+    }
+
+
+    public function queryJson(string $method, string $endpoint, array $params = [], array $body = null) : ?array
+    {
+        $result = $this->query($method, $endpoint, $params, $body);
 
         if ($result === null) {
             return null;
@@ -61,15 +73,22 @@ class AisClient implements RestClient
     }
 
 
-    public function queryRaw(string $endpoint, array $params = []) : ?string
+    public function query(string $method, string $endpoint, array $params = [], array $body = null) : ?string
     {
+        $requestOptions = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->getAccessToken()->getToken(),
+            ],
+            'query' => static::pepareQueryParams($params)
+        ];
+
+        if ($body !== null) {
+            $requestOptions['json'] = $body;
+            unset($requestOptions['query']);
+        }
+
         try {
-            $response = $this->getHttpClient()->get($endpoint, [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->getAccessToken()->getToken(),
-                ],
-                'query' => static::pepareQueryParams($params)
-            ]);
+            $response = $this->getHttpClient()->request($method, $endpoint, $requestOptions);
         } catch (IdentityProviderException $e) {
             if ($e->getMessage() == 'invalid_client') {
                 throw new InvalidArgumentException('Invalid client credentials.', 403, $e);
@@ -84,7 +103,7 @@ class AisClient implements RestClient
     }
 
 
-    public function login(string $userName, string $password) : AccessToken
+    public function logIn(string $userName, string $password) : AccessToken
     {
         try {
             $accessToken = $this->getOAuthProvider()->getAccessToken('password', [

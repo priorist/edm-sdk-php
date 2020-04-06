@@ -16,9 +16,9 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function querySingle(int $id, array $params = [], array $overrideParams = []) : ?array
+    public function fetchSingle(int $id, array $params = [], array $overrideParams = []) : ?array
     {
-        return $this->getClient()->querySingle(
+        return $this->getClient()->fetchSingle(
             static::getEndpointPath(),
             $id,
             array_merge($params, $overrideParams)
@@ -26,12 +26,18 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function queryCollection(array $params = [], array $overrideParams = []) : Collection
+    public function fetchCollection(array $params = [], array $overrideParams = []) : Collection
     {
-        return $this->getClient()->queryCollection(
+        return $this->getClient()->fetchCollection(
             static::getEndpointPath(),
             array_merge(['ordering' => static::getDefaultOrdering()], $params, $overrideParams)
         );
+    }
+
+
+    public function create(array $data = []) : ?array
+    {
+        return $this->getClient()->create(static::getEndpointPath(), $data);
     }
 
 

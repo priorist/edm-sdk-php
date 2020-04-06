@@ -15,7 +15,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      */
     public function findById(int $id) : ?array
     {
-        return $this->querySingle($id, ['expand' => '~all']);
+        return $this->fetchSingle($id, ['expand' => '~all']);
     }
 
 
@@ -28,7 +28,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      */
     public function findAll(array $params = []) : Collection
     {
-        return $this->queryCollection($params);
+        return $this->fetchCollection($params);
     }
 
 
@@ -42,7 +42,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      */
     public function findBySearchPhrase(string $searchPhrase, array $params = []) : Collection
     {
-        return $this->queryCollection([
+        return $this->fetchCollection([
             'search' => $searchPhrase,
         ], $params);
     }

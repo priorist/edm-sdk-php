@@ -16,7 +16,7 @@ class CategoryRepository extends AbstractSearchableRepository
      */
     public function findByParent(int $parentId, array $params = [])
     {
-        return $this->queryCollection([
+        return $this->fetchCollection([
             'parent_category' => $parentId,
         ], $params);
     }
@@ -31,7 +31,7 @@ class CategoryRepository extends AbstractSearchableRepository
      */
     public function findTopLevel(array $params = [])
     {
-        return $this->queryCollection([
+        return $this->fetchCollection([
             'parent_category__isnull' => 1,
         ], $params);
     }

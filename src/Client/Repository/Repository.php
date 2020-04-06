@@ -7,8 +7,9 @@ use Priorist\AIS\Client\Collection;
 
 interface Repository
 {
-    public function querySingle(int $id, array $params = []) : ?array;
-    public function queryCollection(array $params = []) : Collection;
+    public function fetchSingle(int $id, array $params = []) : ?array;
+    public function fetchCollection(array $params = []) : Collection;
+    public function create(array $data = []) : ?array;
 
     public function setClient(RestClient $client) : Repository;
     public function getClient() : RestClient;
