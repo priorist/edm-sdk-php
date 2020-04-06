@@ -12,6 +12,7 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 use Priorist\AIS\Client\Collection;
+use Priorist\AIS\Client\User;
 use Priorist\AIS\Helper\ArrayHelper;
 
 
@@ -71,7 +72,7 @@ class AisClient implements RestClient
             ]);
         } catch (IdentityProviderException $e) {
             if ($e->getMessage() == 'invalid_client') {
-                throw new InvalidArgumentException('Invalid client credentials.');
+                throw new InvalidArgumentException('Invalid client credentials.', 403, $e);
             }
 
             return static::handleException($e); // @codeCoverageIgnore
@@ -80,6 +81,32 @@ class AisClient implements RestClient
         }
 
         return $response->getBody();
+    }
+
+
+    public function login(string $userName, string $password) : AccessToken
+    {
+        try {
+            $accessToken = $this->getOAuthProvider()->getAccessToken('password', [
+                'username' => $userName,
+                'password' => $password,
+            ]);
+        } catch (IdentityProviderException $e) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid client credentials: %s',
+                $e->getMessage()
+            ), 403, $e);
+        }
+
+        $this->setAccessToken($accessToken);
+
+        return $accessToken;
+    }
+
+
+    public function getUser() : User
+    {
+        return $this->getOAuthProvider()->getResourceOwner($this->getAccessToken());
     }
 
 

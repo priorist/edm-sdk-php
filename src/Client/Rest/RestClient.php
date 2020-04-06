@@ -11,6 +11,8 @@ interface RestClient
     public function queryCollection(string $endpoint, array $params) : Collection;
     public function query(string $endpoint, array $params = []) : ?array;
     public function queryRaw(string $endpoint, array $params = []) : ?string;
+    public function login(string $userName, string $password) : AccessToken;
+    public function getUser();
     public function setAccessToken(AccessToken $accessToken) : RestClient;
     public function getAccessToken() : AccessToken;
 }

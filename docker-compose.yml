@@ -20,7 +20,8 @@ services:
         image: priorist/phpunit
         build:
             context: .
-        entrypoint: vendor/bin/phpunit --bootstrap vendor/autoload.php --colors=always --whitelist src/Client --coverage-text tests
+        entrypoint: vendor/bin/phpunit --bootstrap vendor/autoload.php --colors=always --whitelist src/Client --coverage-text
+        command: tests
         working_dir: /app
         volumes:
             - .:/app
@@ -28,6 +29,10 @@ services:
             AIS_URL: ${AIS_URL}
             CLIENT_ID: ${CLIENT_ID}
             CLIENT_SECRET: ${CLIENT_SECRET}
+            CLIENT_ID_USER: ${CLIENT_ID_USER}
+            CLIENT_SECRET_USER: ${CLIENT_SECRET_USER}
+            USER_LOGIN: ${USER_LOGIN}
+            USER_PASSWORD: ${USER_PASSWORD}
 
 
     docs:

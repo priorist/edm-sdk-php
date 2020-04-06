@@ -59,6 +59,35 @@ class Client
     }
 
 
+    /**
+     * Login with user name and password to access the API with the context of a user.
+     *
+     * @param string $username The user name
+     * @param string $password The password
+     *
+     * @throws InvalidArgumentException if provided credentials are invalid
+     *
+     * @return AccessToken The access token for the given users (e.g. to be stored in the session)
+     */
+    public function logIn(string $userName, string $password) : AccessToken
+    {
+        return $this->getRestClient()->login($userName, $password);
+    }
+
+
+    /**
+     * Returns the current user, if logIn() was previously called successfully.
+     *
+     * @throws InvalidArgumentException if provided credentials are invalid or no user is logged in
+     *
+     * @return User The user belonging the the provided credentials
+     */
+    public function getUser() : User
+    {
+        return $this->getRestClient()->getUser();
+    }
+
+
     public function setAccessToken(AccessToken $accessToken) : Client
     {
         $this->getRestClient()->setAccessToken($accessToken);

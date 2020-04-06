@@ -5,11 +5,10 @@ use BadMethodCallException;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Provider\GenericResourceOwner;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
-
+use UnexpectedValueException;
 
 class AisProvider extends AbstractProvider
 {
@@ -71,7 +70,7 @@ class AisProvider extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-        return ['read'];
+        return ['read write'];
     }
 
 
@@ -101,7 +100,13 @@ class AisProvider extends AbstractProvider
      */
     protected function createResourceOwner(array $response, AccessToken $token)
     {
-        // TODO: Return owner with valid data
-        return new GenericResourceOwner($response, 1);
+        if (isset($response['id']) && is_int($response['id']) && $response['id'] > 0) {
+            return new AisResourceOwner($response, intval($response['id']));
+        }
+
+        throw new UnexpectedValueException(sprintf(
+            'Invalid resource owner reponse: %s',
+            $response
+        ));
     }
 }

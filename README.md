@@ -18,6 +18,21 @@ docker-compose run --rm composer install
 use Priorist\AIS\Client\Client;
 
 $client = new Client('https://ais.example.com', 'CLIENT_ID', 'CLIENT_SECRET');
+
+// $client now works with global permission, e.g. to read events.
+
+$events = $client->event->findUpcoming();
+
+// To switch to permissions of a given user, e.g. to read participant data, call logIn
+// with the user’s login name and password:
+
+$accessToken = $client->logIn('USER_NAME', 'PASSWORD');
+
+$client->event->findParticipating();
+
+// You may store $accessToken in your session to re-use it later:
+
+$client->setAccessToken($accessToken);
 ```
 
 ### Events
@@ -173,7 +188,7 @@ XDebug support for Docker for Mac included.
 To create and view a detailed, browsable test coverage report run
 
 ```shell
-docker-compose run --rm test --coverage-html test_results/coverage && open test_results/coverage/index.html
+docker-compose run --rm test tests --coverage-html test_results/coverage && open test_results/coverage/index.html
 ```
 
 
