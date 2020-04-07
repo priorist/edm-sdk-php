@@ -1,0 +1,22 @@
+language: php
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+stages:
+  - compile
+  - test
+
+jobs:
+  include:
+    - stage: build
+      script:
+        - mkdir -p vendor
+        - docker-compose run --rm --user `id -u`:`id -g` composer install
+    - stage: test
+        script:
+          - docker-compose run --rm --user `id -u`:`id -g` test --colors=never
