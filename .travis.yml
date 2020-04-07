@@ -4,18 +4,10 @@ services:
 - docker
 
 branches:
-  only:
-  - master
+    only:
+    - master
 
-stages:
-- build
-- test
-
-jobs:
-  include:
-  - stage: build
-    script:
+script:
     - mkdir -p vendor
     - docker-compose run --rm --user `id -u`:`id -g` composer install
-  - stage: test
-    script: docker-compose run --rm --user `id -u`:`id -g` test --colors=never
+    - docker-compose run --rm --user `id -u`:`id -g` test --colors=never
