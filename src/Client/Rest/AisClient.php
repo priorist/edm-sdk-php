@@ -7,6 +7,7 @@ use RuntimeException;
 use UnexpectedValueException;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -76,27 +77,26 @@ class AisClient implements RestClient
     public function query(string $method, string $endpoint, array $params = [], array $body = null) : ?string
     {
         $requestOptions = [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->getAccessToken()->getToken(),
-            ],
             'query' => static::pepareQueryParams($params)
         ];
 
         if ($body !== null) {
             $requestOptions['json'] = $body;
-            unset($requestOptions['query']);
         }
 
         try {
-            $response = $this->getHttpClient()->request($method, $endpoint, $requestOptions);
+            $requestOptions['headers']['Authorization'] = 'Bearer ' . $this->getAccessToken()->getToken();
+
+            // Django requires a trailing slash to prevent redirects
+            $response = $this->getHttpClient()->request($method, $endpoint . '/', $requestOptions);
         } catch (IdentityProviderException $e) {
             if ($e->getMessage() == 'invalid_client') {
                 throw new InvalidArgumentException('Invalid client credentials.', 403, $e);
             }
 
-            return static::handleException($e); // @codeCoverageIgnore
-        } catch (Exception $e) {
-            return static::handleException($e);
+            throw $e; // @codeCoverageIgnore
+        } catch (GuzzleClientException $e) {
+            return static::handleClientException($e);
         }
 
         return $response->getBody();
@@ -129,6 +129,17 @@ class AisClient implements RestClient
     }
 
 
+    public static function handleClientException(GuzzleClientException $e)
+    {
+        switch ($e->getCode()) {
+            case 404:
+                return null;
+        }
+
+        throw new ClientException($e);
+    }
+
+
     public static function decodeResponse(string $response) : array
     {
         $data = json_decode($response, true, 16, JSON_BIGINT_AS_STRING);
@@ -142,19 +153,6 @@ class AisClient implements RestClient
         }
 
         return $data;
-    }
-
-
-    public static function handleException(Exception $e)
-    {
-        switch ($e->getCode()) {
-            case 401:
-                throw new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
-            case 404:
-                return null;
-        }
-
-        throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
     }
 
 

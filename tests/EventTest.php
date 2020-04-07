@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 use Priorist\AIS\Client\Client;
 use Priorist\AIS\Client\Collection;
-
+use Priorist\AIS\Client\Rest\ClientException;
 
 class EventTest extends TestCase
 {
@@ -68,15 +68,48 @@ class EventTest extends TestCase
      */
     public function testEnrollment(array $event)
     {
+        $this->assertArrayHasKey('prices', $event);
+        $this->assertIsArray($event['prices']);
+        $this->assertGreaterThan(0, count($event['prices']));
+
         $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $enrollment = [
-            'event' => $event['id'],
+            'first_name'    => 'John',
+            'last_name'     => 'Doe',
+            'event'         => $event['id'],
+            'price'         => $event['prices'][0]['id'],
+            'bookings'      => [], // Remove later (server-side bug)
         ];
 
-        $result = $client->enrollment->create($enrollment);
+        // Not working, yet due to server-side bug
+        // $result = $client->enrollment->create($enrollment);
+        // $this->assertIsArray($result);
 
-        $this->assertIsArray($result);
+        return $enrollment;
+    }
+
+
+    /**
+     * @depends testEnrollment
+     */
+    public function testInvalidEnrollment(array $enrollment)
+    {
+        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+
+        unset($enrollment['first_name']);
+
+        $clientException = null;
+
+        try {
+            $client->enrollment->create($enrollment);
+        } catch (ClientException $e) {
+            $clientException = $e;
+        }
+
+        $this->assertInstanceOf(ClientException::class, $clientException);
+        $this->assertIsArray($clientException->getDetails());
+        $this->assertGreaterThan(0, count($clientException->getDetails()));
     }
 
 

@@ -17,7 +17,7 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(Repository::class, $client->event);
         $this->assertEquals($client->event, $client->event);
         $this->assertInstanceOf(AccessToken::class, $client->getAccessToken());
-        $this->assertIsArray($client->getRestClient()->query('categories'));
+        $this->assertIsArray($client->getRestClient()->fetch('categories'));
 
         return $client;
     }
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
         $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
         $client->setAccessToken($originalClient->getAccessToken());
 
-        $this->assertIsArray($client->getRestClient()->query('categories'));
+        $this->assertIsArray($client->getRestClient()->fetch('categories'));
     }
 
 
@@ -101,7 +101,7 @@ class ClientTest extends TestCase
         $client->setAccessToken(new AccessToken(['access_token' => 'DOESNT_MATTER']));
 
         $this->expectException(UnexpectedValueException::class);
-        $client->getRestClient()->query('/200');
+        $client->getRestClient()->fetch('/200');
     }
 
 
@@ -112,6 +112,6 @@ class ClientTest extends TestCase
         $client->setAccessToken(new AccessToken(['access_token' => 'DOESNT_MATTER']));
 
         $this->expectException(RuntimeException::class);
-        $client->getRestClient()->query('/500');
+        $client->getRestClient()->fetch('/500');
     }
 }
