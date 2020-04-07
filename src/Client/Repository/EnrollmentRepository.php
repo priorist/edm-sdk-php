@@ -12,6 +12,6 @@ class EnrollmentRepository extends AbstractSearchableRepository
 
     protected static function getDefaultOrdering() : string
     {
-        return 'last_name';
+        return 'last_name'; // @codeCoverageIgnore
     }
 }

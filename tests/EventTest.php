@@ -74,19 +74,24 @@ class EventTest extends TestCase
 
         $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
-        $enrollment = [
+        $requestedEnrollment = [
             'first_name'    => 'John',
             'last_name'     => 'Doe',
             'event'         => $event['id'],
             'price'         => $event['prices'][0]['id'],
-            'bookings'      => [], // Remove later (server-side bug)
         ];
 
-        // Not working, yet due to server-side bug
-        // $result = $client->enrollment->create($enrollment);
-        // $this->assertIsArray($result);
+        $confirmedEnrollment = $client->enrollment->create($requestedEnrollment);
 
-        return $enrollment;
+        $this->assertIsArray($confirmedEnrollment);
+        $this->assertArrayHasKey('id', $confirmedEnrollment);
+        $this->assertArrayHasKey('event', $confirmedEnrollment);
+        $this->assertArrayHasKey('price', $confirmedEnrollment);
+
+        $this->assertEquals($requestedEnrollment['event'], $confirmedEnrollment['event']);
+        $this->assertEquals($requestedEnrollment['price'], $confirmedEnrollment['price']);
+
+        return $requestedEnrollment;
     }
 
 
