@@ -182,12 +182,12 @@ echo $enrollment['id']; // Holds the resulting ID on success.
 ### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
-generic methods `queryCollection($params = [])` and `querySingle(int $id, array $params = [])`.
+generic methods `fetchCollection($params = [])` and `fetchSingle(int $id, array $params = [])`.
 
 E.g. `$client->event->findUpcoming()` equals
 
 ```php
-$client->event->queryCollection([
+$client->event->fetchCollection([
     'ordering' => 'first_day',
     'first_day__gte' => date('Y-m-d'),
 ]);
@@ -196,7 +196,7 @@ $client->event->queryCollection([
 You can even call any endpoint you like, even the ones without an actual repository:
 
 ```php
-$client->getRestClient()->queryCollection('events', [
+$client->getRestClient()->fetchCollection('events', [
     'ordering' => 'first_day',
     'first_day__gte' => date('Y-m-d'),
 ]);
