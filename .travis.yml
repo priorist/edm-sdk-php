@@ -10,4 +10,4 @@ branches:
 script:
     - mkdir -p vendor
     - docker-compose run --rm --user `id -u`:`id -g` composer install
-    - docker-compose run --rm --user `id -u`:`id -g` test --colors=never
+    - docker-compose run --rm --user `id -u`:`id -g` test
