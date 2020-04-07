@@ -10,6 +10,10 @@ branches:
     only:
     - master
 
+cache:
+    directories:
+    - vendor
+
 script:
     - mkdir -p vendor
     - docker-compose run --rm --user `id -u`:`id -g` composer install
