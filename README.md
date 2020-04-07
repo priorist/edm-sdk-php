@@ -1,5 +1,7 @@
 # AIS SDK PHP
 
+[![Build Status](https://travis-ci.org/priorist/ais-sdk-php.svg?branch=master)](https://travis-ci.org/priorist/ais-sdk-php)
+
 A PHP library to interact with the RESTful API of the Academic Information System (AIS).
 
 
