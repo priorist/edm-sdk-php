@@ -155,6 +155,30 @@ foreach ($tags as $tag) {
 ```
 
 
+### Enrollments
+
+#### Enroll for a given event
+
+```php
+use Priorist\AIS\Client\Rest\ClientException;
+
+$enrollment = [
+    'first_name'    => 'John',
+    'last_name'     => 'Doe',
+    'event'         => 4711,
+    'price'         => 4712,
+];
+
+try {
+    $enrollment = $client->enrollment->create($requestedEnrollment);
+} catch (ClientException $e) {
+    $errors = $e->getDetails(); // Contains errors for missing/invalid fields/values
+}
+
+echo $enrollment['id']; // Holds the resulting ID on success.
+```
+
+
 ### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
@@ -178,6 +202,10 @@ $client->getRestClient()->queryCollection('events', [
 ]);
 ```
 
+
+## Class docs
+
+Current PHPDocs can be viewed here: https://priorist.github.io/ais-sdk-php/
 
 
 ## Run tests
