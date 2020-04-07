@@ -170,7 +170,7 @@ $enrollment = [
 ];
 
 try {
-    $enrollment = $client->enrollment->create($requestedEnrollment);
+    $enrollment = $client->enrollment->create($enrollment);
 } catch (ClientException $e) {
     $errors = $e->getDetails(); // Contains errors for missing/invalid fields/values
 }
