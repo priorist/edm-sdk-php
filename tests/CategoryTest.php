@@ -96,10 +96,6 @@ class CategoryTest extends TestCase
         $this->assertInstanceOf(Collection::class, $children);
         $this->assertGreaterThanOrEqual(0, $children->count());
 
-        if (!$children->hasItems()) {
-            $this->markTestSkipped('No child categories returned.');
-        }
-
         foreach ($children as $category) {
             $this->assertIsArray($category);
             $this->assertEquals($potentialParent['id'], $category['parent_category']);
