@@ -1,8 +1,6 @@
 <?php
 namespace Priorist\AIS\Client\Repository;
 
-use Priorist\AIS\Client\Collection;
-
 
 class EventLocationRepository extends AbstractSearchableRepository
 {
