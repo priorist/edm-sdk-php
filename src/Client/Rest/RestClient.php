@@ -7,7 +7,7 @@ use Priorist\AIS\Client\Collection;
 
 interface RestClient
 {
-    public function fetchSingle(string $endpoint, int $id, array $params) : ?array;
+    public function fetchSingle(string $endpoint, $id, array $params) : ?array;
     public function fetchCollection(string $endpoint, array $params) : Collection;
     public function fetch(string $endpoint, array $params = []) : ?array;
     public function create(string $endpoint, array $data = [], array $params = []) : ?array;

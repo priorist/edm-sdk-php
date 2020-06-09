@@ -38,7 +38,7 @@ class EventBaseTest extends TestCase
     /**
      * @depends testList
      */
-    public function testSingle(Collection $eventBases)
+    public function testSingleById(Collection $eventBases)
     {
         $this->assertIsArray($eventBases->current());
         $this->assertArrayHasKey('id', $eventBases->current());
@@ -65,7 +65,36 @@ class EventBaseTest extends TestCase
 
 
     /**
-     * @depends testSingle
+     * @depends testSingleById
+     */
+    public function testSingleBySlug(array $eventBase)
+    {
+        $this->assertArrayHasKey('slug', $eventBase);
+
+        $existingEventBaseId = $eventBase['id'];
+
+        $this->assertIsInt($existingEventBaseId);
+
+        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+
+        $this->assertNull($client->eventBase->findBySlug('abcdefghijklmnopqrstuvwxyz1234567890'));
+
+        $eventBase = $client->eventBase->findBySlug(trim($eventBase['slug']));
+
+        $this->assertIsArray($eventBase);
+        $this->assertArrayHasKey('id', $eventBase);
+        $this->assertArrayHasKey('slug', $eventBase);
+        $this->assertEquals($existingEventBaseId, $eventBase['id']);
+
+        $this->assertArrayHasKey('events', $eventBase);
+        $this->assertIsArray($eventBase['events']);
+
+        return $eventBase;
+    }
+
+
+    /**
+     * @depends testSingleById
      */
     public function testSearch(array $eventBase)
     {

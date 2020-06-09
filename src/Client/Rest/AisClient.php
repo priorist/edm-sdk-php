@@ -38,9 +38,9 @@ class AisClient implements RestClient
     }
 
 
-    public function fetchSingle(string $endpoint, int $id, array $params) : ?array
+    public function fetchSingle(string $endpoint, $idOrSlug, array $params) : ?array
     {
-        return $this->fetch(sprintf('%s/%u', $endpoint, $id), $params);
+        return $this->fetch(sprintf('%s/%s', $endpoint, $idOrSlug), $params);
     }
 
 

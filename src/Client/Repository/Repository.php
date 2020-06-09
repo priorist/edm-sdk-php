@@ -7,7 +7,7 @@ use Priorist\AIS\Client\Collection;
 
 interface Repository
 {
-    public function fetchSingle(int $id, array $params = []) : ?array;
+    public function fetchSingle($idOrSlug, array $params = []) : ?array;
     public function fetchCollection(array $params = []) : Collection;
     public function create(array $data = []) : ?array;
 

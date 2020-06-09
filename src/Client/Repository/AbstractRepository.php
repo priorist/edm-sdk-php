@@ -16,11 +16,11 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function fetchSingle(int $id, array $params = [], array $overrideParams = []) : ?array
+    public function fetchSingle($idOrSlug, array $params = [], array $overrideParams = []) : ?array
     {
         return $this->getClient()->fetchSingle(
             static::getEndpointPath(),
-            $id,
+            $idOrSlug,
             array_merge($params, $overrideParams)
         );
     }

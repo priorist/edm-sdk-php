@@ -13,7 +13,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      *
      * @return array The item as array or NULL, if matching item was not found
      */
-    public function findById(int $id, array $params = []) : ?array
+    public function findById($id, array $params = []) : ?array
     {
         return $this->fetchSingle($id, ['expand' => '~all'], $params);
     }
