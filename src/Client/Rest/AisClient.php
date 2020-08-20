@@ -167,6 +167,10 @@ class AisClient implements RestClient
     {
         if (ArrayHelper::containsArray($params)) {
             return static::cascadeQueryParams($params);
+        } else {
+            foreach ($params as &$param) {
+                $param = trim($param);
+            }
         }
 
         return $params;
@@ -184,7 +188,7 @@ class AisClient implements RestClient
             if (is_array($value)) {
                 $paramString .= '&' . static::cascadeQueryParams($value, $key);
             } else {
-                $paramString .= '&' . urlencode($key) . '=' . urlencode($value);
+                $paramString .= '&' . urlencode(trim($key)) . '=' . urlencode(trim($value));
             }
         }
 

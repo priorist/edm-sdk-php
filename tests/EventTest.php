@@ -21,9 +21,13 @@ class EventTest extends TestCase
             $this->markTestSkipped('No events returned.');
         }
 
+        $validStatus = ['TAKES_PLACE', 'OFFERED'];
+
         foreach ($events as $event) {
             $this->assertIsArray($event);
             $this->assertIsInt($event['id']);
+            $this->assertContains($event['status'], $validStatus);
+            $this->assertEquals(true, $event['is_public']);
         }
 
         $this->assertNull($events->current());
@@ -55,9 +59,31 @@ class EventTest extends TestCase
         $this->assertIsArray($event);
         $this->assertArrayHasKey('id', $event);
         $this->assertEquals($existingEventId, $event['id']);
+        $this->assertEquals(true, $event['is_public']);
 
         $this->assertArrayHasKey('event_base', $event);
         $this->assertIsArray($event['event_base']);
+
+        return $event;
+    }
+
+    /**
+     * @depends testSingle
+     */
+    public function testParamSanitization(array $event)
+    {
+        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+
+        // Test trimming of spaces in parameter key and value
+        $eventA = $client->event->findById($event['id']);
+        $eventB = $client->event->findById($event['id'], [
+            'is_public' => ' false'
+        ]);
+
+        $this->assertIsArray($eventA);
+        $this->assertArrayHasKey('id', $eventA);
+        $this->assertEquals(true, $eventA['is_public']);
+        $this->assertNull($eventB);
 
         return $event;
     }
