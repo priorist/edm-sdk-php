@@ -7,6 +7,21 @@ use Priorist\AIS\Client\Collection;
 class EventRepository extends AbstractSearchableRepository
 {
     /**
+     * Returns a single item of the repository.
+     *
+     * @param int $id The unique ID of the item
+     *
+     * @return array The item as array or NULL, if matching item was not found
+     */
+    public function findById($id, array $params = []) : ?array
+    {
+        return $this->fetchSingle($id, [
+            'expand' => '~all',
+            'is_public' => 'true'
+        ], $params);
+    }
+
+    /**
      * Returns a collection of upcoming events belonging to certain categories.
      *
      * @param int $categoryId ID of the category
@@ -47,6 +62,8 @@ class EventRepository extends AbstractSearchableRepository
     {
         return $this->fetchCollection([
             'first_day__gte' => date('Y-m-d'),
+            'status' => ['OFFERED', 'TAKES_PLACE'],
+            'is_public' => 'true'
         ], $params);
     }
 
