@@ -7,13 +7,11 @@
 
 A PHP library to interact with the RESTful API of the Academic Information System (AIS).
 
-
 ## Install with Composer
 
 ```shell
 docker-compose run --rm composer install
 ```
-
 
 ## Usage
 
@@ -62,7 +60,6 @@ foreach ($upcomingEvents as $event) {
 }
 ```
 
-
 ### Categories
 
 #### Single category for a given ID
@@ -84,7 +81,6 @@ foreach ($categories as $category) {
     echo $category['name'] . "\n";
 }
 ```
-
 
 ### Event locations
 
@@ -108,7 +104,6 @@ foreach ($locations as $location) {
 }
 ```
 
-
 ### Lecturers
 
 #### Single lecturer for a given ID
@@ -131,7 +126,6 @@ foreach ($lecturers as $lecturer) {
 }
 ```
 
-
 ### Tags
 
 #### Single tag for a given ID
@@ -153,7 +147,6 @@ foreach ($tags as $tag) {
     echo $tag['name'] . "\n";
 }
 ```
-
 
 ### Enrollments
 
@@ -178,7 +171,6 @@ try {
 echo $enrollment['id']; // Holds the resulting ID on success.
 ```
 
-
 ### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
@@ -202,11 +194,9 @@ $client->getRestClient()->fetchCollection('events', [
 ]);
 ```
 
-
 ## Class docs
 
-Current PHPDocs can be viewed here: https://priorist.github.io/ais-sdk-php/
-
+Current PHPDocs can be viewed here: <https://priorist.github.io/ais-sdk-php/>
 
 ## Run tests
 
@@ -224,13 +214,11 @@ To create and view a detailed, browsable test coverage report run
 docker-compose run --rm test tests --coverage-html test_results/coverage && open test_results/coverage/index.html
 ```
 
-
 ## Generate docs
 
 ```shell
 docker-compose run --rm docs && open docs/index.html
 ```
-
 
 ## Build *.phar archive
 
