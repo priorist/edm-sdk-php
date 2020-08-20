@@ -77,7 +77,7 @@ class AisClient implements RestClient
     public function query(string $method, string $endpoint, array $params = [], array $body = null) : ?string
     {
         $requestOptions = [
-            'query' => static::pepareQueryParams($params)
+            'query' => static::prepareQueryParams($params)
         ];
 
         if ($body !== null) {
@@ -163,7 +163,7 @@ class AisClient implements RestClient
      *
      * @return array|string The prepared array or a query string
      */
-    public static function pepareQueryParams(array $params)
+    public static function prepareQueryParams(array $params)
     {
         if (ArrayHelper::containsArray($params)) {
             return static::cascadeQueryParams($params);
