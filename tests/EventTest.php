@@ -148,7 +148,7 @@ class EventTest extends TestCase
     {
         $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
-        $events = $client->event->findBySearchPhrase($event['event_base_name']);
+        $events = $client->event->findBySearchPhrase($event['meta']['event_base_name']);
 
         $this->assertInstanceOf(Collection::class, $events);
         $this->assertGreaterThan(0, $events->count());
