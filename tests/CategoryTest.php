@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
 
 
 class CategoryTest extends TestCase
 {
     public function testList()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $categories = $client->category->findAll();
 
@@ -46,7 +46,7 @@ class CategoryTest extends TestCase
 
         $this->assertIsInt($existingCategoryId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->category->findById(0));
 
@@ -64,7 +64,7 @@ class CategoryTest extends TestCase
 
     public function testTopLevel()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $categories = $client->category->findTopLevel();
 
@@ -89,7 +89,7 @@ class CategoryTest extends TestCase
      */
     public function testChildren(array $potentialParent)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $children = $client->category->findByParent($potentialParent['id']);
 
@@ -108,7 +108,7 @@ class CategoryTest extends TestCase
      */
     public function testSearch(array $category)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $categories = $client->category->findBySearchPhrase($category['name']);
 

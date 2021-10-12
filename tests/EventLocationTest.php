@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
 
 
 class EventLocationTest extends TestCase
 {
     public function testList()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $locations = $client->eventLocation->findAll();
 
@@ -46,7 +46,7 @@ class EventLocationTest extends TestCase
 
         $this->assertIsInt($existingLocationId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->eventLocation->findById(0));
 
@@ -70,7 +70,7 @@ class EventLocationTest extends TestCase
     {
         $this->assertArrayHasKey('name', $location);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $locations = $client->eventLocation->findBySearchPhrase($location['name']);
 

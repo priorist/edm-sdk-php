@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
 
 
 class EventBaseTest extends TestCase
 {
     public function testList()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $eventBases = $client->eventBase->findAllWithEvents();
 
@@ -47,7 +47,7 @@ class EventBaseTest extends TestCase
 
         $this->assertIsInt($existingEventBaseId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->eventBase->findById(0));
 
@@ -75,7 +75,7 @@ class EventBaseTest extends TestCase
 
         $this->assertIsInt($existingEventBaseId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->eventBase->findBySlug('abcdefghijklmnopqrstuvwxyz1234567890'));
 
@@ -98,7 +98,7 @@ class EventBaseTest extends TestCase
      */
     public function testSearch(array $eventBase)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $eventBases = $client->eventBase->findBySearchPhrase($eventBase['name']);
 

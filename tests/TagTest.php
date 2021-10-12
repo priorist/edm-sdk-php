@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
 
 
 class TagTest extends TestCase
 {
     public function testList()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $tags = $client->tag->findAll();
 
@@ -46,7 +46,7 @@ class TagTest extends TestCase
 
         $this->assertIsInt($existingTagId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->tag->findById(0));
 
@@ -67,7 +67,7 @@ class TagTest extends TestCase
      */
     public function testSearch(array $tag)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $tags = $client->tag->findBySearchPhrase($tag['name']);
 

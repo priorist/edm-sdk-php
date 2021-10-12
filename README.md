@@ -1,11 +1,11 @@
-# AIS SDK PHP
+# EDM SDK PHP
 
-[![Build Status](https://travis-ci.org/priorist/ais-sdk-php.svg?branch=master)](https://travis-ci.org/priorist/ais-sdk-php)
-![License](https://img.shields.io/github/license/priorist/ais-sdk-php)
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/priorist/ais-sdk-php?include_prereleases&sort=semver)
-![PHP from Travis config](https://img.shields.io/travis/php-v/priorist/ais-sdk-php)
+[![Build Status](https://travis-ci.org/priorist/edm-sdk-php.svg?branch=master)](https://travis-ci.org/priorist/edm-sdk-php)
+![License](https://img.shields.io/github/license/priorist/edm-sdk-php)
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/priorist/edm-sdk-php?include_prereleases&sort=semver)
+![PHP from Travis config](https://img.shields.io/travis/php-v/priorist/edm-sdk-php)
 
-A PHP library to interact with the RESTful API of the Academic Information System (AIS).
+A PHP library to interact with the RESTful API of the [Education Manager](https://education-manager.de) (EDM).
 
 ## Install with Composer
 
@@ -18,9 +18,9 @@ docker-compose run --rm composer install
 ### Init client
 
 ```php
-use Priorist\AIS\Client\Client;
+use Priorist\EDM\Client\Client;
 
-$client = new Client('https://ais.example.com', 'CLIENT_ID', 'CLIENT_SECRET');
+$client = new Client('https://edm.example.com', 'CLIENT_ID', 'CLIENT_SECRET');
 
 // $client now works with global permission, e.g. to read events.
 
@@ -153,7 +153,7 @@ foreach ($tags as $tag) {
 #### Enroll for a given event
 
 ```php
-use Priorist\AIS\Client\Rest\ClientException;
+use Priorist\EDM\Client\Rest\ClientException;
 
 $enrollment = [
     'first_name'    => 'John',
@@ -196,7 +196,7 @@ $client->getRestClient()->fetchCollection('events', [
 
 ## Class docs
 
-Current PHPDocs can be viewed here: <https://priorist.github.io/ais-sdk-php/>
+Current PHPDocs can be viewed here: <https://priorist.github.io/edm-sdk-php/>
 
 ## Run tests
 
@@ -222,8 +222,8 @@ docker-compose run --rm docs && open docs/index.html
 
 ## Build *.phar archive
 
-To use the SDK in legacy applications, you may build an include a *.phar package
-in you application.
+To use the SDK in legacy applications, you may build and include a *.phar package
+in your application.
 
 Download phar-composer first:
 
@@ -240,5 +240,5 @@ docker-compose run --rm phar
 To use the client, include the autoload of the archive:
 
 ```php
-include 'ais-sdk.phar/vendor/autoload.php';
+include 'edm-sdk.phar/vendor/autoload.php';
 ```

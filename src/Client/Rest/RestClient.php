@@ -1,8 +1,8 @@
 <?php
-namespace Priorist\AIS\Client\Rest;
+namespace Priorist\EDM\Client\Rest;
 
 use League\OAuth2\Client\Token\AccessToken;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Collection;
 
 
 interface RestClient

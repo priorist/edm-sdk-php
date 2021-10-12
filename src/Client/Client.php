@@ -1,14 +1,15 @@
 <?php
-namespace Priorist\AIS\Client;
+
+namespace Priorist\EDM\Client;
 
 use InvalidArgumentException;
 
 use League\OAuth2\Client\Token\AccessToken;
 
-use Priorist\AIS\Client\Rest\RestClient;
-use Priorist\AIS\Client\Rest\AisClient;
-use Priorist\AIS\Client\Repository\Repository;
-use Priorist\AIS\OAuth2\Client\Provider\AisProvider;
+use Priorist\EDM\Client\Rest\RestClient;
+use Priorist\EDM\Client\Rest\EdmClient;
+use Priorist\EDM\Client\Repository\Repository;
+use Priorist\EDM\OAuth2\Client\Provider\EdmProvider;
 
 
 class Client
@@ -17,13 +18,13 @@ class Client
     protected array $repositories = [];
 
 
-    public function __construct(string $aisUrl, string $clientId, string $clientSecret)
+    public function __construct(string $edmUrl, string $clientId, string $clientSecret)
     {
         $this->setRestClient(
-            new AisClient(
-                $aisUrl,
-                new AisProvider([
-                    'baseUrl' => AisClient::getBaseUri($aisUrl),
+            new EdmClient(
+                $edmUrl,
+                new EdmProvider([
+                    'baseUrl' => EdmClient::getBaseUri($edmUrl),
                     'clientId' => $clientId,
                     'clientSecret' => $clientSecret,
                 ])
@@ -41,13 +42,13 @@ class Client
      *
      * @return Repository The repository matching the requested name
      */
-    public function __get($name) : Repository
+    public function __get($name): Repository
     {
         if (isset($this->repositories[$name])) {
             return $this->repositories[$name];
         }
 
-        $repositoryClass = sprintf('Priorist\AIS\Client\Repository\%sRepository', ucfirst($name));
+        $repositoryClass = sprintf('Priorist\EDM\Client\Repository\%sRepository', ucfirst($name));
 
         if (class_exists($repositoryClass)) {
             $this->repositories[$name] = new $repositoryClass($this->getRestClient());
@@ -69,7 +70,7 @@ class Client
      *
      * @return AccessToken The access token for the given users (e.g. to be stored in the session)
      */
-    public function logIn(string $userName, string $password) : AccessToken
+    public function logIn(string $userName, string $password): AccessToken
     {
         return $this->getRestClient()->logIn($userName, $password);
     }
@@ -82,13 +83,13 @@ class Client
      *
      * @return User The user belonging the the provided credentials
      */
-    public function getUser() : User
+    public function getUser(): User
     {
         return $this->getRestClient()->getUser();
     }
 
 
-    public function setAccessToken(AccessToken $accessToken) : Client
+    public function setAccessToken(AccessToken $accessToken): Client
     {
         $this->getRestClient()->setAccessToken($accessToken);
 
@@ -96,13 +97,13 @@ class Client
     }
 
 
-    public function getAccessToken() : AccessToken
+    public function getAccessToken(): AccessToken
     {
         return $this->getRestClient()->getAccessToken();
     }
 
 
-    public function setRestClient(RestClient $restClient) : Client
+    public function setRestClient(RestClient $restClient): Client
     {
         $this->restClient = $restClient;
 
@@ -110,7 +111,7 @@ class Client
     }
 
 
-    public function getRestClient() : RestClient
+    public function getRestClient(): RestClient
     {
         return $this->restClient;
     }

@@ -3,16 +3,16 @@
 use PHPUnit\Framework\TestCase;
 use League\OAuth2\Client\Token\AccessToken;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\User;
-use Priorist\AIS\Client\Repository\Repository;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\User;
+use Priorist\EDM\Client\Repository\Repository;
 
 
 class ClientTest extends TestCase
 {
     public function testConnection()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertInstanceOf(Repository::class, $client->event);
         $this->assertEquals($client->event, $client->event);
@@ -28,7 +28,7 @@ class ClientTest extends TestCase
      */
     public function testTokenReuse(Client $originalClient)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
         $client->setAccessToken($originalClient->getAccessToken());
 
         $this->assertIsArray($client->getRestClient()->fetch('categories'));
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
 
     public function testUserLogin()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID_USER'), getenv('CLIENT_SECRET_USER'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID_USER'), getenv('CLIENT_SECRET_USER'));
 
         $accessToken = $client->logIn(getenv('USER_LOGIN'), getenv('USER_PASSWORD'));
 
@@ -76,7 +76,7 @@ class ClientTest extends TestCase
 
     public function testInvalidCredentials()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), 'INVALID_SECRET');
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), 'INVALID_SECRET');
 
         $this->expectException(InvalidArgumentException::class);
         $client->event->findUpcoming();
@@ -85,7 +85,7 @@ class ClientTest extends TestCase
 
     public function testInvalidToken()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), 'INVALID_SECRET');
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), 'INVALID_SECRET');
 
         $client->setAccessToken(new AccessToken(['access_token' => 'INVALID_TOKEN']));
 

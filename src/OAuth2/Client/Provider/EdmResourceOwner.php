@@ -1,10 +1,10 @@
 <?php
-namespace Priorist\AIS\OAuth2\Client\Provider;
+namespace Priorist\EDM\OAuth2\Client\Provider;
 
-use Priorist\AIS\Client\User;
+use Priorist\EDM\Client\User;
 
 
-class AisResourceOwner implements User
+class EdmResourceOwner implements User
 {
     protected int $id;
     protected array $data = [];
