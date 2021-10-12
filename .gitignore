@@ -3,3 +3,5 @@ docker-compose.override.yml
 /test_results
 *.phar
 /docs/phpdoc-cache*
+.phpdoc
+.vscode
