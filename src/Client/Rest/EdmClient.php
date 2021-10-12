@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\AIS\Client\Rest;
+namespace Priorist\EDM\Client\Rest;
 
 use Exception;
 use InvalidArgumentException;
@@ -12,12 +12,12 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
-use Priorist\AIS\Client\Collection;
-use Priorist\AIS\Client\User;
-use Priorist\AIS\Helper\ArrayHelper;
+use Priorist\EDM\Client\Collection;
+use Priorist\EDM\Client\User;
+use Priorist\EDM\Helper\ArrayHelper;
 
 
-class AisClient implements RestClient
+class EdmClient implements RestClient
 {
     protected AbstractProvider $oauthProvider;
     protected HttpClient $httpClient;
@@ -201,15 +201,15 @@ class AisClient implements RestClient
     {
         return [
             'headers' => [
-                'User-Agent' => 'priorist/AIS/SDK PHP' . PHP_VERSION
+                'User-Agent' => 'priorist/EDM/SDK PHP' . PHP_VERSION
             ]
         ];
     }
 
 
-    public static function getBaseUri(string $aisUrl) : string
+    public static function getBaseUri(string $edmUrl) : string
     {
-        return sprintf('%s/api/v1/', trim($aisUrl, "/ \t\n\r\0\x0B"));
+        return sprintf('%s/api/v1/', trim($edmUrl, "/ \t\n\r\0\x0B"));
     }
 
 

@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\AIS\Client;
+namespace Priorist\EDM\Client;
 
 use Iterator;
 use ArrayAccess;
@@ -8,7 +8,7 @@ use Countable;
 use InvalidArgumentException;
 use UnexpectedValueException;
 use BadMethodCallException;
-use Priorist\AIS\Client\Rest\AisClient;
+use Priorist\EDM\Client\Rest\EdmClient;
 
 class Collection implements Iterator, ArrayAccess, Serializable, Countable
 {
@@ -191,7 +191,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      */
     public function unserialize($json) : Collection
     {
-        $data = AisClient::decodeResponse($json);
+        $data = EdmClient::decodeResponse($json);
 
         if (!isset($data['count'], $data['results'])) {
             throw new UnexpectedValueException('Invalid collection data.');

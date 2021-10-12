@@ -13,7 +13,7 @@ services:
         volumes:
             - .:/app
         entrypoint: /usr/local/bin/php -d phar.readonly=off phar-composer.phar
-        command: build . ais-sdk.phar
+        command: build . edm-sdk.phar
 
 
     test:
@@ -26,7 +26,7 @@ services:
         volumes:
             - .:/app
         environment:
-            AIS_URL: ${AIS_URL}
+            EDM_URL: ${EDM_URL}
             CLIENT_ID: ${CLIENT_ID}
             CLIENT_SECRET: ${CLIENT_SECRET}
             CLIENT_ID_USER: ${CLIENT_ID_USER}
@@ -39,4 +39,4 @@ services:
         image: phpdoc/phpdoc
         volumes:
             - .:/data
-        command: -d ./src/Client -t ./docs --title "AIS SDK" --visibility "public"
+        command: -d ./src/Client -t ./docs --title "EDM SDK" --visibility "public"

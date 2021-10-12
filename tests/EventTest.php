@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
-use Priorist\AIS\Client\Rest\ClientException;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
+use Priorist\EDM\Client\Rest\ClientException;
 
 class EventTest extends TestCase
 {
     public function testUpcoming()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $events = $client->event->findUpcoming();
 
@@ -50,7 +50,7 @@ class EventTest extends TestCase
 
         $this->assertIsInt($existingEventId);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $this->assertNull($client->event->findById(0));
 
@@ -72,7 +72,7 @@ class EventTest extends TestCase
      */
     public function testParamSanitization(array $event)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         // Test trimming of spaces in parameter key and value
         $eventA = $client->event->findById($event['id']);
@@ -98,7 +98,7 @@ class EventTest extends TestCase
         $this->assertIsArray($event['prices']);
         $this->assertGreaterThan(0, count($event['prices']));
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $requestedEnrollment = [
             'first_name'    => 'John',
@@ -126,7 +126,7 @@ class EventTest extends TestCase
      */
     public function testInvalidEnrollment(array $enrollment)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         unset($enrollment['first_name']);
 
@@ -153,7 +153,7 @@ class EventTest extends TestCase
         $this->assertIsArray($event['event_base']['categories']);
         $this->assertIsInt($event['event_base']['categories'][0]);
 
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $events = $client->event->findUpcomingByCategory($event['event_base']['categories'][0]);
 
@@ -172,7 +172,7 @@ class EventTest extends TestCase
      */
     public function testSearch(array $event)
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $events = $client->event->findBySearchPhrase($event['meta']['event_base_name']);
 

@@ -1,6 +1,6 @@
 {
-    "name": "priorist/ais-sdk",
-    "description": "A PHP library to interact with the RESTful API of the Academic Information System (AIS).",
+    "name": "priorist/edm-sdk",
+    "description": "A PHP library to interact with the RESTful API of the Education Manager (EDM).",
     "type": "library",
     "config": {
         "platform": {
@@ -25,12 +25,12 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Priorist\\AIS\\": "src/"
+            "Priorist\\EDM\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Priorist\\AIS\\Test\\": "tests/"
+            "Priorist\\EDM\\Test\\": "tests/"
         }
     },
     "scripts": {

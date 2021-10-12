@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Priorist\AIS\Client\Client;
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Client;
+use Priorist\EDM\Client\Collection;
 
 
 class CollectionTest extends TestCase
 {
     public function testStructure()
     {
-        $client = new Client(getenv('AIS_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
+        $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $collection = $client->event->findUpcoming();
 

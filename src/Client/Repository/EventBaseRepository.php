@@ -1,7 +1,7 @@
 <?php
-namespace Priorist\AIS\Client\Repository;
+namespace Priorist\EDM\Client\Repository;
 
-use Priorist\AIS\Client\Collection;
+use Priorist\EDM\Client\Collection;
 
 
 class EventBaseRepository extends AbstractSearchableRepository

@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\AIS\Client;
+namespace Priorist\EDM\Client;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 

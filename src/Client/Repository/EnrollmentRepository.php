@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\AIS\Client\Repository;
+namespace Priorist\EDM\Client\Repository;
 
 
 class EnrollmentRepository extends AbstractSearchableRepository

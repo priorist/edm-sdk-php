@@ -1,6 +1,6 @@
 <?php
 
-namespace Priorist\AIS\Helper;
+namespace Priorist\EDM\Helper;
 
 class ArrayHelper
 {

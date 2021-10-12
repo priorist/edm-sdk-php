@@ -1,5 +1,5 @@
 <?php
-namespace Priorist\AIS\OAuth2\Client\Provider;
+namespace Priorist\EDM\OAuth2\Client\Provider;
 
 use BadMethodCallException;
 
@@ -10,13 +10,13 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
 use UnexpectedValueException;
 
-class AisProvider extends AbstractProvider
+class EdmProvider extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
 
     /**
-     * @var string Base URL of the AIS instance
+     * @var string Base URL of the EDM instance
      */
     protected $baseUrl;
 
@@ -30,7 +30,7 @@ class AisProvider extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        throw new BadMethodCallException('Grant type authcode not supported by AIS.');
+        throw new BadMethodCallException('Grant type authcode not supported by EDM.');
     }
 
 
@@ -101,7 +101,7 @@ class AisProvider extends AbstractProvider
     protected function createResourceOwner(array $response, AccessToken $token)
     {
         if (isset($response['id']) && is_int($response['id']) && $response['id'] > 0) {
-            return new AisResourceOwner($response, intval($response['id']));
+            return new EdmResourceOwner($response, intval($response['id']));
         }
 
         throw new UnexpectedValueException(sprintf(

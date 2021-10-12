@@ -1,10 +1,10 @@
 <?php
-namespace Priorist\AIS\Client\Rest;
+namespace Priorist\EDM\Client\Rest;
 
 use InvalidArgumentException;
 
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use Priorist\AIS\Client\Rest\AisClient;
+use Priorist\EDM\Client\Rest\EdmClient;
 
 
 class ClientException extends InvalidArgumentException
@@ -16,7 +16,7 @@ class ClientException extends InvalidArgumentException
     {
         parent::__construct($e->getMessage(), $e->getCode(), $e);
 
-        $this->setDetails(AisClient::decodeResponse($e->getResponse()->getBody()));
+        $this->setDetails(EdmClient::decodeResponse($e->getResponse()->getBody()));
     }
 
 
