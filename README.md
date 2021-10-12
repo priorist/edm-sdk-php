@@ -1,9 +1,9 @@
 # EDM SDK PHP
 
-[![Build Status](https://travis-ci.org/priorist/edm-sdk-php.svg?branch=master)](https://travis-ci.org/priorist/edm-sdk-php)
+[![Build Status](https://travis-ci.org/priorist/ais-sdk-php.svg?branch=master)](https://travis-ci.org/priorist/edm-sdk-php)
 ![License](https://img.shields.io/github/license/priorist/edm-sdk-php)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/priorist/edm-sdk-php?include_prereleases&sort=semver)
-![PHP from Travis config](https://img.shields.io/travis/php-v/priorist/edm-sdk-php)
+![PHP from Travis config](https://img.shields.io/travis/php-v/priorist/ais-sdk-php)
 
 A PHP library to interact with the RESTful API of the [Education Manager](https://education-manager.de) (EDM).
 
