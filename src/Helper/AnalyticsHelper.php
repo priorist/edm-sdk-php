@@ -9,22 +9,32 @@ class AnalyticsHelper
      *
      * @return string The full URL with protocol, host, path, query and fragment.
      */
-    public static function getFullUrl(): string
+    public static function getFullUrl(?array $server = null): string
     {
-        return (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] === "on" ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $server ??= $_SERVER;
+        $fullUrl = "";
+
+        if (isset($server)) {
+            $protocol = (isset($server["HTTPS"]) && $server["HTTPS"] === "on") ? "https" : "http";
+
+            $fullUrl = $protocol . "://$server[HTTP_HOST]$server[REQUEST_URI]";
+        }
+
+        return $fullUrl;
     }
 
     /**
      * Get the full URL of the referring page.
      *
-     * @return string The HTTP referrer or NULL, if none was set.
+     * @return string The HTTP referrer or "", if none was set.
      */
-    public static function getReferrerUrl(): ?string
+    public static function getReferrerUrl(?array $server = null): string
     {
-        if (!empty($_SERVER["HTTP_REFERER"])) {
-            $refUrl = $_SERVER["HTTP_REFERER"];
-        } else {
-            $refUrl = null;
+        $server ??= $_SERVER;
+        $refUrl = "";
+
+        if (!empty($server["HTTP_REFERER"])) {
+            $refUrl = $server["HTTP_REFERER"];
         }
 
         return $refUrl;
@@ -37,41 +47,15 @@ class AnalyticsHelper
      */
     public static function getHashedUserId(): string
     {
-        $userAgent = $_SERVER["HTTP_USER_AGENT"] ?? null;
-        $ipAddress = $_SERVER["HTTP_CLIENT_IP"]
-            ?: ($_SERVER["HTTP_X_FORWARDED_FOR"]
-                ?: $_SERVER["REMOTE_ADDR"]);
+        $hashedUserId = "";
+        $userAgent = self::getUserAgent();
+        $ipAddress = self::getIpAddress();
 
-        $hashedUserId = hash("sha256", $ipAddress . $userAgent);
-
-        return $hashedUserId;
-    }
-
-    /**
-     * Get the value of all UTM parameteres.
-     *
-     * @return array The value of all UTM parameters or NULL, if none are set.
-     */
-    public static function getUtmParameters(): ?array
-    {
-        $utmParameterValues = [];
-        $utmParameters = [
-            "utm_medium",
-            "utm_source",
-            "utm_campaign"
-        ];
-
-        if (!empty($_GET)) {
-            foreach ($utmParameters as $utmParameter) {
-                if (isset($_GET[$utmParameter])) {
-                    $utmParameterValues[$utmParameter] = $_GET[$utmParameter];
-                } else {
-                    $utmParameterValues[$utmParameter] = null;
-                }
-            }
+        if (!empty($userAgent) || !empty($ipAddress)) {
+            $hashedUserId = hash("sha256", $ipAddress . $userAgent);
         }
 
-        return $utmParameterValues;
+        return $hashedUserId;
     }
 
     /**
@@ -79,16 +63,38 @@ class AnalyticsHelper
      *
      * @param string $type The UTM parameter type: medium, source, campaign, term or content.
      *
-     * @return string The value of the UTM parameter or NULL, if none was set.
+     * @return string The value of the UTM parameter or "", if none was set.
      */
-    public static function getUtmParameter(string $type): ?string
+    public static function getUtmParameter(string $type): string
     {
+        $utmParameter = "";
+
         if (isset($_GET["utm_" . $type])) {
             $utmParameter = $_GET["utm_" . $type];
-        } else {
-            $utmParameter = null;
         }
 
         return $utmParameter;
+    }
+
+    protected static function getIpAddress(?array $server = null): ?string
+    {
+        $server ??= $_SERVER;
+
+        if (!empty($server["REMOTE_ADDR"])) {
+            $ip = $server["REMOTE_ADDR"];
+        }
+
+        return $ip;
+    }
+
+    protected static function getUserAgent(?array $server = null): ?string
+    {
+        $server ??= $_SERVER;
+
+        if (!empty($server["HTTP_USER_AGENT"])) {
+            $userAgent = $server["HTTP_USER_AGENT"];
+        }
+
+        return $userAgent;
     }
 }
