@@ -34,7 +34,7 @@ class Client
 
 
     /**
-     * Magic methid to retreive repositories.
+     * Magic method to retrieve repositories.
      *
      * @param string $name The name of the repository to fetch
      *
