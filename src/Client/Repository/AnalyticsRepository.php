@@ -7,11 +7,6 @@ use Priorist\EDM\Helper\AnalyticsHelper;
 class AnalyticsRepository extends AbstractRepository
 {
     protected string $userId;
-    protected string $url;
-    protected string $referrer;
-    protected string $utmMedium;
-    protected string $utmSource;
-    protected string $utmCampaign;
 
     /**
      * Tracks an event with additional information.
@@ -70,45 +65,6 @@ class AnalyticsRepository extends AbstractRepository
     }
 
     /**
-     * Sets the value to be tracked for 'utm_medium' parameter.
-     *
-     * @param string $utmMedium Value of 'utm_medium' parameter.
-     * @return $this
-     */
-    public function setUtmMedium(string $utmMedium)
-    {
-        $this->utmMedium = $utmMedium;
-
-        return $this;
-    }
-
-    /**
-     * Sets the value to be tracked for 'utm_source' parameter.
-     *
-     * @param string $utmSource Value of 'utm_source' parameter.
-     * @return $this
-     */
-    public function setUtmSource(string $utmSource)
-    {
-        $this->utmSource = $utmSource;
-
-        return $this;
-    }
-
-    /**
-     * Sets the value to be tracked for 'utm_campaign' parameter.
-     *
-     * @param string $utmCampaign Value of 'utm_campaign' parameter.
-     * @return $this
-     */
-    public function setUtmCampaign(string $utmCampaign)
-    {
-        $this->utmCampaign = $utmCampaign;
-
-        return $this;
-    }
-
-    /**
      * Sets a custom user Id.
      *
      * @param string $userId Custom user id.
@@ -117,32 +73,6 @@ class AnalyticsRepository extends AbstractRepository
     public function setUserId(string $userId)
     {
         $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Sets the current URL referrer
-     *
-     * @param string $url Raw URL (not URL encoded)
-     * @return $this
-     */
-    public function setReferrer(string $url)
-    {
-        $this->referrer = $url;
-
-        return $this;
-    }
-
-    /**
-     * Sets the current URL being tracked
-     *
-     * @param string $url Raw URL (not URL encoded)
-     * @return $this
-     */
-    public function setUrl(string $url)
-    {
-        $this->url = $url;
 
         return $this;
     }
