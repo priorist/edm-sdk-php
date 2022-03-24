@@ -9,7 +9,7 @@
     },
     "require": {
         "php": "^7.4.1",
-        "guzzlehttp/guzzle": "^7.0.0",
+        "guzzlehttp/guzzle": "6.4.1 || ^7.0.0",
         "league/oauth2-client": "^2.4"
     },
     "require-dev": {
