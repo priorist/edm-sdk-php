@@ -25,6 +25,8 @@ class AnalyticsHelper
      */
     public static function getReferrerUrl(): ?string
     {
+        $refUrl = null;
+
         if (isset($_SERVER['HTTP_REFERRER']) && !empty($server['HTTP_REFERER'])) {
             $refUrl = $server['HTTP_REFERER'];
         }
@@ -39,6 +41,7 @@ class AnalyticsHelper
      */
     public static function getHashedUserId(): ?string
     {
+        $hashedUserId = null;
         $userAgent = self::getUserAgent();
         $ipAddress = self::getIpAddress();
 
@@ -49,26 +52,10 @@ class AnalyticsHelper
         return $hashedUserId;
     }
 
-    /**
-     * Get the value of an UTM parameter.
-     *
-     * @param string $type The UTM parameter type: medium, source, campaign, term or content.
-     *
-     * @return string The value of the UTM parameter or NULL, if none was set.
-     */
-    public static function getUtmParameter(string $type): ?string
-    {
-        $parameterKey = 'utm_' . $type;
-
-        if (isset($_GET[$parameterKey]) && !empty($_GET[$parameterKey])) {
-            $utmParameter = $_GET[$parameterKey];
-        }
-
-        return $utmParameter;
-    }
-
     protected static function getIpAddress(): ?string
     {
+        $ip = null;
+
         if (isset($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
@@ -78,6 +65,8 @@ class AnalyticsHelper
 
     protected static function getUserAgent(): ?string
     {
+        $userAgent = null;
+
         if (isset($_SERVER['HTTP_USER_AGENT']) && !empty($server['HTTP_USER_AGENT'])) {
             $userAgent = $server['HTTP_USER_AGENT'];
         }
