@@ -5,3 +5,4 @@ compose.override.yml
 /docs/phpdoc-cache*
 .phpdoc
 .vscode
+/.phpunit.cache

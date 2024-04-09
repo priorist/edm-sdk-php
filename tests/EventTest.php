@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -38,9 +39,7 @@ class EventTest extends TestCase
     }
 
 
-    /**
-     * @depends testUpcoming
-     */
+    #[Depends('testUpcoming')]
     public function testSingle(Collection $events)
     {
         $this->assertIsArray($events->current());
@@ -67,9 +66,7 @@ class EventTest extends TestCase
         return $event;
     }
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testParamSanitization(array $event)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
@@ -89,9 +86,7 @@ class EventTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testEnrollment(array $event)
     {
         $this->assertArrayHasKey('prices', $event);
@@ -121,9 +116,7 @@ class EventTest extends TestCase
     }
 
 
-    /**
-     * @depends testEnrollment
-     */
+    #[Depends('testEnrollment')]
     public function testInvalidEnrollment(array $enrollment)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
@@ -144,9 +137,7 @@ class EventTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testByCategory(array $event)
     {
         $this->assertArrayHasKey('categories', $event['event_base']);
@@ -167,9 +158,7 @@ class EventTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testSearch(array $event)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));

@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -29,9 +30,7 @@ class CollectionTest extends TestCase
     }
 
 
-    /**
-     * @depends testStructure
-     */
+    #[Depends('testStructure')]
     public function testArrayAccess(Collection $collection)
     {
         $this->assertEquals(count($collection), $collection->count());
@@ -43,9 +42,7 @@ class CollectionTest extends TestCase
     }
 
 
-    /**
-     * @depends testStructure
-     */
+    #[Depends('testStructure')]
     public function testReadOnly(Collection $collection)
     {
         $this->expectException(BadMethodCallException::class);

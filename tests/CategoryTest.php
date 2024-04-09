@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -34,9 +35,7 @@ class CategoryTest extends TestCase
     }
 
 
-    /**
-     * @depends testList
-     */
+    #[Depends('testList')]
     public function testSingle(Collection $categories)
     {
         $this->assertIsArray($categories->current());
@@ -84,9 +83,7 @@ class CategoryTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testChildren(array $potentialParent)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
@@ -103,9 +100,7 @@ class CategoryTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testSearch(array $category)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));

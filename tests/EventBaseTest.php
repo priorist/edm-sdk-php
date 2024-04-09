@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -35,9 +36,7 @@ class EventBaseTest extends TestCase
     }
 
 
-    /**
-     * @depends testList
-     */
+    #[Depends('testList')]
     public function testSingleById(Collection $eventBases)
     {
         $this->assertIsArray($eventBases->current());
@@ -64,9 +63,7 @@ class EventBaseTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingleById
-     */
+    #[Depends('testSingleById')]
     public function testSingleBySlug(array $eventBase)
     {
         $this->assertArrayHasKey('slug', $eventBase);
@@ -93,9 +90,7 @@ class EventBaseTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingleById
-     */
+    #[Depends('testSingleById')]
     public function testSearch(array $eventBase)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));

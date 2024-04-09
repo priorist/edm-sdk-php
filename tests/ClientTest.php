@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -23,9 +25,7 @@ class ClientTest extends TestCase
     }
 
 
-    /**
-     * @depends testConnection
-     */
+    #[Depends('testConnection')]
     public function testTokenReuse(Client $originalClient)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
@@ -35,9 +35,7 @@ class ClientTest extends TestCase
     }
 
 
-    /**
-     * @depends testConnection
-     */
+    #[Depends('testConnection')]
     public function testInvalidRepository(Client $client)
     {
         $this->expectException(InvalidArgumentException::class);
@@ -63,9 +61,8 @@ class ClientTest extends TestCase
         return $client;
     }
 
-    /**
-     * @depends testUserLogin
-     */
+
+    #[Depends('testUserLogin')]
     public function testInvalidUserLogin(Client $client)
     {
         $this->expectException(InvalidArgumentException::class);

@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -34,9 +35,7 @@ class LecturerTest extends TestCase
     }
 
 
-    /**
-     * @depends testList
-     */
+    #[Depends('testList')]
     public function testSingle(Collection $lecturers)
     {
         $this->assertIsArray($lecturers->current());
@@ -62,9 +61,7 @@ class LecturerTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testSingle')]
     public function testSearch(array $lecturer)
     {
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));

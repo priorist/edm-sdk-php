@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
 use Priorist\EDM\Client\Client;
@@ -34,9 +35,7 @@ class EventLocationTest extends TestCase
     }
 
 
-    /**
-     * @depends testList
-     */
+    #[Depends('testList')]
     public function testSingle(Collection $locations)
     {
         $this->assertIsArray($locations->current());
@@ -63,9 +62,7 @@ class EventLocationTest extends TestCase
     }
 
 
-    /**
-     * @depends testSingle
-     */
+    #[Depends('testList')]
     public function testSearch(array $location)
     {
         $this->assertArrayHasKey('name', $location);

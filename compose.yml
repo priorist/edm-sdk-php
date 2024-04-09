@@ -20,7 +20,7 @@ services:
         image: priorist/phpunit
         build:
             context: .
-        entrypoint: vendor/bin/phpunit --bootstrap vendor/autoload.php --colors=always --whitelist src/Client --coverage-text
+        entrypoint: vendor/bin/phpunit --colors=always --coverage-text
         command: tests
         working_dir: /app
         volumes:
