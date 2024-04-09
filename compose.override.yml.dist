@@ -1,0 +1,11 @@
+services:
+
+    test:
+        environment:
+            EDM_URL: https://stage.education-manager.de
+            CLIENT_ID: f83JpyEh5FqWgzAKoMVFbKEPkfXKM86azqxkB3HG
+            CLIENT_SECRET:
+            CLIENT_ID_USER: dRPRsgL20DjRpi7hNnaLoXyLkelTi08UIV55ndnm
+            CLIENT_SECRET_USER:
+            USER_LOGIN: lukas@priorist.com
+            USER_PASSWORD:

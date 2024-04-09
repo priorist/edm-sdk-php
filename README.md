@@ -10,7 +10,7 @@ A PHP library to interact with the RESTful API of the [Education Manager](https:
 ## Install with Composer
 
 ```shell
-docker-compose run --rm composer install
+docker compose run --rm composer install
 ```
 
 ## Usage
@@ -200,10 +200,10 @@ Current PHPDocs can be viewed here: <https://priorist.github.io/edm-sdk-php/>
 
 ## Run tests
 
-Enable `docker-compose.override.yml` and run
+Enable `compose.override.yml` and run
 
 ```shell
-docker-compose run --rm test
+docker compose run --rm test
 ```
 
 XDebug support for Docker for Mac included.
@@ -211,13 +211,13 @@ XDebug support for Docker for Mac included.
 To create and view a detailed, browsable test coverage report run
 
 ```shell
-docker-compose run --rm test tests --coverage-html test_results/coverage && open test_results/coverage/index.html
+docker compose run --rm test tests --coverage-html test_results/coverage && open test_results/coverage/index.html
 ```
 
 ## Generate docs
 
 ```shell
-docker-compose run --rm docs && open docs/index.html
+docker compose run --rm docs && open docs/index.html
 ```
 
 ## Build *.phar archive
@@ -234,7 +234,7 @@ curl --location --output phar-composer.phar https://clue.engineering/phar-compos
 Build the archive:
 
 ```shell
-docker-compose run --rm phar
+docker compose run --rm phar
 ```
 
 To use the client, include the autoload of the archive:

@@ -1,5 +1,5 @@
 /vendor/
-docker-compose.override.yml
+compose.override.yml
 /test_results
 *.phar
 /docs/phpdoc-cache*
