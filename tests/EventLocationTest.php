@@ -62,7 +62,7 @@ class EventLocationTest extends TestCase
     }
 
 
-    #[Depends('testList')]
+    #[Depends('testSingle')]
     public function testSearch(array $location)
     {
         $this->assertArrayHasKey('name', $location);
