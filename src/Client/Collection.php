@@ -14,6 +14,8 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
 {
     protected int $total = 0;
     protected array $items = [];
+    protected string | null $nextPageUrl = null;
+    protected string | null $previousPageUrl = null;
 
 
     public function __construct(string $json = null)
@@ -29,7 +31,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return array The array copy holding all data
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return [
             'count' => $this->total,
@@ -47,9 +49,9 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return Collection This collection
      */
-    protected function fromArray(array $data) : Collection
+    protected function fromArray(array $data): Collection
     {
-        $this->count = $data['count'];
+        $this->total = $data['count'];
         $this->items = $data['results'];
 
         return $this;
@@ -61,7 +63,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return bool True if collection has at least one element
      */
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return $this->count() > 0;
     }
@@ -70,7 +72,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
     /**
      * Rewinds the item iterator to the first item.
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->items);
     }
@@ -81,7 +83,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return array The item
      */
-    public function current() : ?array
+    public function current(): array | null
     {
         $item = current($this->items);
 
@@ -98,7 +100,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return int Index of current item
      */
-    public function key() : int
+    public function key(): int
     {
         return key($this->items);
     }
@@ -107,7 +109,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
     /**
      * Moves forward to the next item.
      */
-    public function next()
+    public function next(): void
     {
         next($this->items);
     }
@@ -118,7 +120,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return bool True if current iterator position is valid
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return key($this->items) !== null;
     }
@@ -130,7 +132,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      * @param int $offset The offset to check
      * @return bool True if given offset exists in the collection
      */
-    public function offsetExists($offset) : bool
+    public function offsetExists($offset): bool
     {
         return array_key_exists(intval($offset), $this->items);
     }
@@ -142,7 +144,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      * @param int $offset The offset to check
      * @return array The item or null, if offset is invalid
      */
-    public function offsetGet($offset) : ?array
+    public function offsetGet($offset): array | null
     {
         if ($this->offsetExists($offset)) {
             return $this->items[intval($offset)];
@@ -155,7 +157,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
     /**
      * Not supported for collections (array access)
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new BadMethodCallException('Collections are read-only. Use Collection::toArray() to get an array copy.');
     }
@@ -164,7 +166,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
     /**
      * Not supported for collections (array access)
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new BadMethodCallException('Collections are read-only. Use Collection::toArray() to get an array copy.');
     }
@@ -175,7 +177,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return string The JSON encoded stream
      */
-    public function serialize() : string
+    public function serialize(): string
     {
         return json_encode($this->toArray());
     }
@@ -189,7 +191,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      * @throws UnexpectedValueException if JSON unserializes to unexpected value.
      * @throws InvalidArgumentException if JSON is not valid
      */
-    public function unserialize($json) : Collection
+    public function unserialize($json): Collection
     {
         $data = EdmClient::decodeResponse($json);
 
@@ -206,7 +208,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return int Number of elements
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->items);
     }
