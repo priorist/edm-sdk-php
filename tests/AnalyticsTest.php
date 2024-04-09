@@ -8,6 +8,10 @@ class AnalyticsTest extends TestCase
 {
     public function testTrack()
     {
+        if (php_sapi_name() === 'cli') {
+            $this->markTestSkipped('This test requires a web server to run.');
+        }
+
         $client = new Client(getenv('EDM_URL'), getenv('CLIENT_ID'), getenv('CLIENT_SECRET'));
 
         $trackingEvent = 'event_viewed';
