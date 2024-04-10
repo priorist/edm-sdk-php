@@ -179,7 +179,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      */
     public function serialize(): string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->__serialize());
     }
 
 
@@ -193,13 +193,40 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      */
     public function unserialize($json): Collection
     {
-        $data = EdmClient::decodeResponse($json);
+        $this->__unserialize(EdmClient::decodeResponse($json));
 
+        return $this;
+    }
+
+
+    /**
+     * Return the array representation of the collection.
+     * This method is called during serialization.
+     *
+     * @return array The array representation of the collection
+     */
+    public function __serialize(): array
+    {
+        return $this->toArray();
+    }
+
+
+
+    /**
+     * Populates the collection and its elements based on an array.
+     * This method is called during unserialization.
+     *
+     * @param array $data The array to populate the collection with
+     *
+     * @throws UnexpectedValueException if array unserializes to unexpected value.
+     */
+    public function __unserialize(array $data): void
+    {
         if (!isset($data['count'], $data['results'])) {
             throw new UnexpectedValueException('Invalid collection data.');
         }
 
-        return $this->fromArray($data);
+        $this->fromArray($data);
     }
 
 
