@@ -162,7 +162,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      */
     public function offsetSet($offset, $value): void
     {
-        throw new BadMethodCallException('Collections are read-only. Use Collection::toArray() to get an array copy.');
+        $this->items[intval($offset)] = $value;
     }
 
 
@@ -171,7 +171,10 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      */
     public function offsetUnset($offset): void
     {
-        throw new BadMethodCallException('Collections are read-only. Use Collection::toArray() to get an array copy.');
+        unset($this->items[intval($offset)]);
+
+        // Re-index the array to avoid gaps in the keys
+        $this->items = array_values($this->items);
     }
 
 

@@ -30,7 +30,7 @@ class EventBaseRepository extends AbstractSearchableRepository
      */
     public function findById($id, array $params = []): array | null
     {
-        return parent::fetchSingle($id, ['expand' => '~all,events.location,events.lecturers'], $params);
+        return $this->fetchSingle($id, ['expand' => '~all,events.location,events.lecturers'], $params);
     }
 
 
@@ -46,6 +46,46 @@ class EventBaseRepository extends AbstractSearchableRepository
         return $this->fetchCollection([
             'expand' => 'events',
         ], $params);
+    }
+
+
+    /**
+     * Filters retrieved event base items to not include unwanted fields.
+     *
+     * @param array|null $eventBase The event base item to filter
+     *
+     * @return array|null The filtered event base item or null if it was not found
+     */
+    protected function filterItem(array | null $eventBase): array | null
+    {
+        $eventBase = parent::filterItem($eventBase);
+
+        if ($eventBase === null) {
+            return null;
+        }
+
+        if (array_key_exists('documents', $eventBase) && is_array($eventBase['documents'])) {
+            $this->removeProtectedDocuments($eventBase['documents']);
+        }
+
+        if (array_key_exists('files', $eventBase) && is_array($eventBase['files'])) {
+            $this->removeProtectedDocuments($eventBase['files']);
+        }
+
+        return $eventBase;
+    }
+
+
+    protected function removeProtectedDocuments(array &$documents): void
+    {
+        foreach ($documents as $key => $document) {
+            if (!array_key_exists('visible_for_all', $document) || !$document['visible_for_all']) {
+                unset($documents[$key]);
+            }
+        }
+
+        // Re-index the array to avoid gaps in the keys
+        $documents = array_values($documents);
     }
 
 

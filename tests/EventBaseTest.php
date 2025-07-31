@@ -24,9 +24,7 @@ class EventBaseTest extends TestCase
         }
 
         foreach ($eventBases as $eventBase) {
-            $this->assertIsArray($eventBase);
-            $this->assertIsInt($eventBase['id']);
-            $this->assertIsArray($eventBase['events']);
+            $this->assertIsEventBase($eventBase);
         }
 
         $this->assertNull($eventBases->current());
@@ -53,12 +51,8 @@ class EventBaseTest extends TestCase
 
         $eventBase = $client->eventBase->findById($existingEventBaseId);
 
-        $this->assertIsArray($eventBase);
-        $this->assertArrayHasKey('id', $eventBase);
+        $this->assertIsEventBase($eventBase);
         $this->assertEquals($existingEventBaseId, $eventBase['id']);
-
-        $this->assertArrayHasKey('events', $eventBase);
-        $this->assertIsArray($eventBase['events']);
 
         return $eventBase;
     }
@@ -79,13 +73,8 @@ class EventBaseTest extends TestCase
 
         $eventBase = $client->eventBase->findBySlug(trim($eventBase['slug']));
 
-        $this->assertIsArray($eventBase);
-        $this->assertArrayHasKey('id', $eventBase);
-        $this->assertArrayHasKey('slug', $eventBase);
+        $this->assertIsEventBase($eventBase);
         $this->assertEquals($existingEventBaseId, $eventBase['id']);
-
-        $this->assertArrayHasKey('events', $eventBase);
-        $this->assertIsArray($eventBase['events']);
 
         return $eventBase;
     }
@@ -100,5 +89,51 @@ class EventBaseTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $eventBases);
         $this->assertGreaterThan(0, $eventBases->count());
+    }
+
+
+    public function assertIsEventBase($eventBase): void
+    {
+        $this->assertIsArray($eventBase);
+
+        $this->assertArrayHasKey('id', $eventBase);
+        $this->assertArrayHasKey('name', $eventBase);
+        $this->assertArrayHasKey('slug', $eventBase);
+        $this->assertArrayHasKey('events', $eventBase);
+        $this->assertArrayHasKey('documents', $eventBase);
+
+        $this->assertIsInt($eventBase['id']);
+        $this->assertIsArray($eventBase['events']);
+        $this->assertIsArray($eventBase['documents']);
+
+        foreach ($eventBase['documents'] as $document) {
+            $this->assertIsPublicDocument($document);
+        }
+
+        // Check if legacy files are present. Will be removed in the future. Replaced by documents.
+        if (array_key_exists('files', $eventBase)) {
+            $this->assertIsArray($eventBase['files']);
+
+            foreach ($eventBase['files'] as $document) {
+                $this->assertIsPublicDocument($document);
+            }
+        }
+    }
+
+
+    public function assertIsPublicDocument($document): void
+    {
+        $this->assertIsArray($document);
+
+        $this->assertArrayHasKey('id', $document);
+        $this->assertArrayHasKey('visible_for_all', $document);
+        $this->assertArrayHasKey('url', $document);
+        $this->assertArrayHasKey('name', $document);
+
+        $this->assertIsString($document['id']);
+        $this->assertIsBool($document['visible_for_all']);
+        $this->assertIsString($document['url']);
+
+        $this->assertTrue($document['visible_for_all'], sprintf('Document %s (ID: %s) is not visible for all', $document['name'], $document['id']));
     }
 }
