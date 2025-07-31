@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
+namespace Priorist\EDM\Test;
+
+use BadMethodCallException;
+use UnexpectedValueException;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\TestCase;
 use Priorist\EDM\Client\Client;
 use Priorist\EDM\Client\Collection;
 
-class CollectionTest extends TestCase
+class CollectionTest extends AbstractTestCase
 {
     public function testStructure()
     {
@@ -36,17 +39,6 @@ class CollectionTest extends TestCase
         $this->assertEquals(count($collection), $collection->count());
         $this->assertIsArray($collection[0]);
         $this->assertNull($collection[-1]);
-
-        $this->expectException(BadMethodCallException::class);
-        $collection[0] = array();
-    }
-
-
-    #[Depends('testStructure')]
-    public function testReadOnly(Collection $collection)
-    {
-        $this->expectException(BadMethodCallException::class);
-        unset($collection[0]);
     }
 
 

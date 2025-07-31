@@ -71,6 +71,42 @@ class EventRepository extends AbstractSearchableRepository
     }
 
 
+     /**
+     * Filters retrieved event items to not include unwanted fields.
+     *
+     * @param array|null $event The event item to filter
+     *
+     * @return array|null The filtered event item or null if it was not found
+     */
+    protected function filterItem(array | null $event): array | null
+    {
+        $event = parent::filterItem($event);
+
+        if ($event === null) {
+            return null;
+        }
+
+        if (array_key_exists('files', $event) && is_array($event['files'])) {
+            $this->removeProtectedDocuments($event['files']);
+        }
+
+        return $event;
+    }
+
+
+    protected function removeProtectedDocuments(array &$documents): void
+    {
+        foreach ($documents as $key => $document) {
+            if (!array_key_exists('visible_for_all', $document) || !$document['visible_for_all']) {
+                unset($documents[$key]);
+            }
+        }
+
+        // Re-index the array to avoid gaps in the keys
+        $documents = array_values($documents);
+    }
+
+
     public static function getEndpointPath(): string
     {
         return 'events';

@@ -103,7 +103,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
      *
      * @return int Index of current item
      */
-    public function key(): int
+    public function key(): int | null
     {
         return key($this->items);
     }

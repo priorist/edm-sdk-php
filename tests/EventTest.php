@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
+namespace Priorist\EDM\Test;
+
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\TestCase;
 use Priorist\EDM\Client\Client;
 use Priorist\EDM\Client\Collection;
 use Priorist\EDM\Client\Rest\ClientException;
 
-class EventTest extends TestCase
+class EventTest extends AbstractTestCase
 {
     public function testUpcoming()
     {
@@ -23,13 +24,8 @@ class EventTest extends TestCase
             $this->markTestSkipped('No events returned.');
         }
 
-        $validStatus = ['TAKES_PLACE', 'OFFERED'];
-
         foreach ($events as $event) {
-            $this->assertIsArray($event);
-            $this->assertIsInt($event['id']);
-            $this->assertContains($event['status'], $validStatus);
-            $this->assertEquals(true, $event['is_public']);
+            $this->assertIsEvent($event);
         }
 
         $this->assertNull($events->current());
@@ -56,13 +52,11 @@ class EventTest extends TestCase
 
         $event = $client->event->findById($existingEventId);
 
-        $this->assertIsArray($event);
-        $this->assertArrayHasKey('id', $event);
+        $this->assertIsEvent($event);
         $this->assertEquals($existingEventId, $event['id']);
-        $this->assertEquals(true, $event['is_public']);
 
         $this->assertArrayHasKey('event_base', $event);
-        $this->assertIsArray($event['event_base']);
+        $this->assertIsEventBase($event['event_base']);
 
         return $event;
     }
@@ -78,9 +72,7 @@ class EventTest extends TestCase
             'is_public' => ' false'
         ]);
 
-        $this->assertIsArray($eventA);
-        $this->assertArrayHasKey('id', $eventA);
-        $this->assertEquals(true, $eventA['is_public']);
+        $this->assertIsEvent($eventA);
         $this->assertNull($eventB);
 
         return $event;

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace Priorist\EDM\Test;
+
 use Priorist\EDM\Client\Client;
 
-class AnalyticsTest extends TestCase
+class AnalyticsTest extends AbstractTestCase
 {
     public function testTrack()
     {

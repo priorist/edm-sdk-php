@@ -72,6 +72,26 @@ class EventBaseRepository extends AbstractSearchableRepository
             $this->removeProtectedDocuments($eventBase['files']);
         }
 
+        if (array_key_exists('events', $eventBase) && is_array($eventBase['events'])) {
+            foreach ($eventBase['events'] as $key => &$event) {
+                // Ignore non-expanded events
+                if (!is_array($event)) {
+                    continue;
+                }
+
+                // Remove events that are not public or do not have a valid status
+                if (!in_array($event['status'], ['TAKES_PLACE', 'OFFERED'])) {
+                    unset($eventBase['events'][$key]);
+                    continue;
+                }
+
+                // Filter files in events
+                if (array_key_exists('files', $event) && is_array($event['files'])) {
+                    $this->removeProtectedDocuments($event['files']);
+                }
+            }
+        }
+
         return $eventBase;
     }
 

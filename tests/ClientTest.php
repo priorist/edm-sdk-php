@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
+namespace Priorist\EDM\Test;
+
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\TestCase;
 use League\OAuth2\Client\Token\AccessToken;
 use Priorist\EDM\Client\Client;
 use Priorist\EDM\Client\Repository\Repository;
 
-class ClientTest extends TestCase
+class ClientTest extends AbstractTestCase
 {
     public function testConnection()
     {

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
+namespace Priorist\EDM\Test;
+
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\TestCase;
 use Priorist\EDM\Client\Client;
 use Priorist\EDM\Client\Collection;
 
-class LecturerTest extends TestCase
+class LecturerTest extends AbstractTestCase
 {
     public function testList()
     {
