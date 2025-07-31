@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client;
 
 use InvalidArgumentException;
-
 use League\OAuth2\Client\Token\AccessToken;
-
 use Priorist\EDM\Client\Rest\RestClient;
 use Priorist\EDM\Client\Rest\EdmClient;
 use Priorist\EDM\Client\Repository\Repository;
 use Priorist\EDM\OAuth2\Client\Provider\EdmProvider;
-
 
 class Client
 {

@@ -1,7 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
 use Priorist\EDM\Client\Client;
 
 class AnalyticsTest extends TestCase

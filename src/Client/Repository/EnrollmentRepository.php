@@ -1,16 +1,18 @@
 <?php
-namespace Priorist\EDM\Client\Repository;
 
+declare(strict_types=1);
+
+namespace Priorist\EDM\Client\Repository;
 
 class EnrollmentRepository extends AbstractSearchableRepository
 {
-    public static function getEndpointPath() : string
+    public static function getEndpointPath(): string
     {
         return 'enrollments';
     }
 
 
-    protected static function getDefaultOrdering() : string
+    protected static function getDefaultOrdering(): string
     {
         return 'last_name'; // @codeCoverageIgnore
     }

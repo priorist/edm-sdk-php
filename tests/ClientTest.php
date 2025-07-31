@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use League\OAuth2\Client\Token\AccessToken;

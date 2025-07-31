@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Repository;
 
 use Priorist\EDM\Client\Collection;
-
 
 abstract class AbstractSearchableRepository extends AbstractRepository
 {
@@ -13,7 +15,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      *
      * @return array The item as array or NULL, if matching item was not found
      */
-    public function findById($id, array $params = []) : ?array
+    public function findById($id, array $params = []): array | null
     {
         return $this->fetchSingle($id, ['expand' => '~all'], $params);
     }
@@ -26,7 +28,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      *
      * @return Collection The collection of items
      */
-    public function findAll(array $params = []) : Collection
+    public function findAll(array $params = []): Collection
     {
         return $this->fetchCollection($params);
     }
@@ -40,7 +42,7 @@ abstract class AbstractSearchableRepository extends AbstractRepository
      *
      * @return Collection The collection of items
      */
-    public function findBySearchPhrase(string $searchPhrase, array $params = []) : Collection
+    public function findBySearchPhrase(string $searchPhrase, array $params = []): Collection
     {
         return $this->fetchCollection([
             'search' => $searchPhrase,

@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\OAuth2\Client\Provider;
 
 use Priorist\EDM\Client\User;
-
 
 class EdmResourceOwner implements User
 {
@@ -17,19 +19,19 @@ class EdmResourceOwner implements User
     }
 
 
-    public function getName() : string
+    public function getName(): string
     {
         return trim(sprintf('%s %s %s', $this->get('title'), $this->get('first_name'), $this->get('last_name')));
     }
 
 
-    public function hasRole(string $role) : bool
+    public function hasRole(string $role): bool
     {
         return in_array($role, $this->getRoles());
     }
 
 
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->get('roles', []);
     }
@@ -45,13 +47,13 @@ class EdmResourceOwner implements User
     }
 
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->data;
     }

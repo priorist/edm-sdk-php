@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
-
 use Priorist\EDM\Client\Client;
 use Priorist\EDM\Client\Collection;
 use Priorist\EDM\Client\Rest\ClientException;

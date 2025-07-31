@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Repository;
 
 use Priorist\EDM\Client\Collection;
-
 
 class EventBaseRepository extends AbstractSearchableRepository
 {
@@ -13,7 +15,7 @@ class EventBaseRepository extends AbstractSearchableRepository
      *
      * @return array The event base as array or NULL, if matching event base was not found
      */
-    public function findBySlug(string $slug, array $params = []) : ?array
+    public function findBySlug(string $slug, array $params = []): array | null
     {
         return $this->findById($slug, $params);
     }
@@ -26,7 +28,7 @@ class EventBaseRepository extends AbstractSearchableRepository
      *
      * @return array The event base as array or NULL, if matching event base was not found
      */
-    public function findById($id, array $params = []) : ?array
+    public function findById($id, array $params = []): array | null
     {
         return parent::fetchSingle($id, ['expand' => '~all,events.location,events.lecturers'], $params);
     }
@@ -39,7 +41,7 @@ class EventBaseRepository extends AbstractSearchableRepository
      *
      * @return Collection The collection of event bases
      */
-    public function findAllWithEvents(array $params = []) : Collection
+    public function findAllWithEvents(array $params = []): Collection
     {
         return $this->fetchCollection([
             'expand' => 'events',
@@ -47,13 +49,13 @@ class EventBaseRepository extends AbstractSearchableRepository
     }
 
 
-    public static function getEndpointPath() : string
+    public static function getEndpointPath(): string
     {
         return 'event_bases';
     }
 
 
-    protected static function getDefaultOrdering() : string
+    protected static function getDefaultOrdering(): string
     {
         return 'name';
     }

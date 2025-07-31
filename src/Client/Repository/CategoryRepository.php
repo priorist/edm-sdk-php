@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Repository;
 
 use Priorist\EDM\Client\Collection;
-
 
 class CategoryRepository extends AbstractSearchableRepository
 {
@@ -14,7 +16,7 @@ class CategoryRepository extends AbstractSearchableRepository
      *
      * @return Collection The collection of categories
      */
-    public function findByParent(int $parentId, array $params = [])
+    public function findByParent(int $parentId, array $params = []): Collection
     {
         return $this->fetchCollection([
             'parent_category' => $parentId,
@@ -29,7 +31,7 @@ class CategoryRepository extends AbstractSearchableRepository
      *
      * @return Collection The collection of categories
      */
-    public function findTopLevel(array $params = [])
+    public function findTopLevel(array $params = []): Collection
     {
         return $this->fetchCollection([
             'parent_category__isnull' => 1,
@@ -37,13 +39,13 @@ class CategoryRepository extends AbstractSearchableRepository
     }
 
 
-    public static function getEndpointPath() : string
+    public static function getEndpointPath(): string
     {
         return 'categories';
     }
 
 
-    protected static function getDefaultOrdering() : string
+    protected static function getDefaultOrdering(): string
     {
         return 'name';
     }

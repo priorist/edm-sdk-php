@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Rest;
 
 use InvalidArgumentException;
@@ -17,7 +19,7 @@ class EdmClient implements RestClient
 {
     protected AbstractProvider $oauthProvider;
     protected HttpClient $httpClient;
-    protected ?AccessToken $accessToken = null;
+    protected AccessToken | null $accessToken = null;
 
 
     public function __construct(string $baseUrl, AbstractProvider $oauthProvider, array $options = [])
@@ -34,31 +36,31 @@ class EdmClient implements RestClient
     }
 
 
-    public function fetchSingle(string $endpoint, $idOrSlug, array $params) : ?array
+    public function fetchSingle(string $endpoint, $idOrSlug, array $params): array | null
     {
         return $this->fetch(sprintf('%s/%s', $endpoint, $idOrSlug), $params);
     }
 
 
-    public function fetchCollection(string $endpoint, array $params) : Collection
+    public function fetchCollection(string $endpoint, array $params): Collection
     {
         return new Collection($this->query('GET', $endpoint, $params));
     }
 
 
-    public function fetch(string $endpoint, array $params = []) : ?array
+    public function fetch(string $endpoint, array $params = []): array | null
     {
         return $this->queryJson('GET', $endpoint, $params);
     }
 
 
-    public function create(string $endpoint, array $data = [], array $params = []) : ?array
+    public function create(string $endpoint, array $data = [], array $params = []): array | null
     {
         return $this->queryJson('POST', $endpoint, $params, $data);
     }
 
 
-    public function queryJson(string $method, string $endpoint, array $params = [], array $body = null) : ?array
+    public function queryJson(string $method, string $endpoint, array $params = [], array | null $body = null): array | null
     {
         $result = $this->query($method, $endpoint, $params, $body);
 
@@ -70,7 +72,7 @@ class EdmClient implements RestClient
     }
 
 
-    public function query(string $method, string $endpoint, array $params = [], array $body = null) : ?string
+    public function query(string $method, string $endpoint, array $params = [], array | null $body = null): string | null
     {
         $requestOptions = [
             'query' => static::prepareQueryParams($params)
@@ -95,11 +97,11 @@ class EdmClient implements RestClient
             return static::handleClientException($e);
         }
 
-        return $response->getBody();
+        return (string) $response->getBody();
     }
 
 
-    public function logIn(string $userName, string $password) : AccessToken
+    public function logIn(string $userName, string $password): AccessToken
     {
         try {
             $accessToken = $this->getOAuthProvider()->getAccessToken('password', [
@@ -119,24 +121,24 @@ class EdmClient implements RestClient
     }
 
 
-    public function getUser() : User
+    public function getUser(): User
     {
         return $this->getOAuthProvider()->getResourceOwner($this->getAccessToken());
     }
 
 
-    public static function handleClientException(GuzzleClientException $e)
+    public static function handleClientException(GuzzleClientException $e): void
     {
         switch ($e->getCode()) {
             case 404:
-                return null;
+                return;
         }
 
         throw new ClientException($e);
     }
 
 
-    public static function decodeResponse(string $response) : array
+    public static function decodeResponse(string $response): array
     {
         $data = json_decode($response, true, 16, JSON_BIGINT_AS_STRING);
 
@@ -159,13 +161,13 @@ class EdmClient implements RestClient
      *
      * @return array|string The prepared array or a query string
      */
-    public static function prepareQueryParams(array $params)
+    public static function prepareQueryParams(array $params): array | string
     {
         if (ArrayHelper::containsArray($params)) {
             return static::cascadeQueryParams($params);
         } else {
             foreach ($params as &$param) {
-                $param = trim($param);
+                $param = trim((string) $param);
             }
         }
 
@@ -173,7 +175,7 @@ class EdmClient implements RestClient
     }
 
 
-    public static function cascadeQueryParams(array $params, string $commonName = null) : string
+    public static function cascadeQueryParams(array $params, string | null $commonName = null): string
     {
         $paramString = '';
         foreach ($params as $key => &$value) {
@@ -184,7 +186,7 @@ class EdmClient implements RestClient
             if (is_array($value)) {
                 $paramString .= '&' . static::cascadeQueryParams($value, $key);
             } else {
-                $paramString .= '&' . urlencode(trim($key)) . '=' . urlencode(trim($value));
+                $paramString .= '&' . urlencode(trim((string) $key)) . '=' . urlencode(trim((string) $value));
             }
         }
 
@@ -193,7 +195,7 @@ class EdmClient implements RestClient
     }
 
 
-    public static function getDefaultRestClientoptions()
+    public static function getDefaultRestClientoptions(): array
     {
         return [
             'headers' => [
@@ -203,13 +205,13 @@ class EdmClient implements RestClient
     }
 
 
-    public static function getBaseUri(string $edmUrl) : string
+    public static function getBaseUri(string $edmUrl): string
     {
         return sprintf('%s/api/v1/', trim($edmUrl, "/ \t\n\r\0\x0B"));
     }
 
 
-    public function setOAuthProvider(AbstractProvider $oauthProvider) : RestClient
+    public function setOAuthProvider(AbstractProvider $oauthProvider): self
     {
         $this->oauthProvider = $oauthProvider;
 
@@ -217,13 +219,13 @@ class EdmClient implements RestClient
     }
 
 
-    public function getOAuthProvider() : AbstractProvider
+    public function getOAuthProvider(): AbstractProvider
     {
         return $this->oauthProvider;
     }
 
 
-    public function setHttpClient(HttpClient $httpClient) : RestClient
+    public function setHttpClient(HttpClient $httpClient): self
     {
         $this->httpClient = $httpClient;
 
@@ -231,13 +233,13 @@ class EdmClient implements RestClient
     }
 
 
-    public function getHttpClient() : HttpClient
+    public function getHttpClient(): HttpClient
     {
         return $this->httpClient;
     }
 
 
-    public function setAccessToken(AccessToken $accessToken) : RestClient
+    public function setAccessToken(AccessToken $accessToken): self
     {
         $this->accessToken = $accessToken;
 
@@ -245,7 +247,7 @@ class EdmClient implements RestClient
     }
 
 
-    public function getAccessToken() : AccessToken
+    public function getAccessToken(): AccessToken
     {
         if ($this->accessToken === null) {
             $this->setAccessToken($this->getOAuthProvider()->getAccessToken('client_credentials'));

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client;
 
 use Iterator;
@@ -18,7 +21,7 @@ class Collection implements Iterator, ArrayAccess, Serializable, Countable
     protected string | null $previousPageUrl = null;
 
 
-    public function __construct(string $json = null)
+    public function __construct(string | null $json = null)
     {
         if ($json !== null) {
             $this->unserialize($json);

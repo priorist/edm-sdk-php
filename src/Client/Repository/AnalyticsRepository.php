@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Repository;
 
+use Throwable;
 use Priorist\EDM\Helper\AnalyticsHelper;
 
 class AnalyticsRepository extends AbstractRepository
@@ -23,22 +26,33 @@ class AnalyticsRepository extends AbstractRepository
      *
      * @return array|null The decoded response as array or NULL, if the JSON was malformed.
      */
-    public function track(string $trackingEvent, int $eventBase, ?int $event = null, ?string $userId = null, ?string $url = null, ?string $referrer = null, ?string $utmMedium = null, ?string $utmSource = null, ?string $utmCampaign = null): ?array
+    public function track(
+        string $trackingEvent,
+        int $eventBase,
+        int | null $event = null,
+        string | null $userId = null,
+        string | null $url = null,
+        string | null $referrer = null,
+        string | null $utmMedium = null,
+        string | null $utmSource = null,
+        string | null $utmCampaign = null
+    ): array | null
     {
         $data = [
-            "name" => $trackingEvent,
-            "event_base" => $eventBase,
-            "event" => $event,
-            "userId" => $this->userId ?? $userId ?? AnalyticsHelper::getHashedUserId(),
-            "url" => $url ?? AnalyticsHelper::getFullUrl(),
-            "referrer" => $referrer ?? AnalyticsHelper::getReferrerUrl(),
-            "utm_medium" => $utmMedium,
-            "utm_source" => $utmSource,
-            "utm_campaign" => $utmCampaign
+            'name' => $trackingEvent,
+            'event_base' => $eventBase,
+            'event' => $event,
+            'userId' => $this->userId ?? $userId ?? AnalyticsHelper::getHashedUserId(),
+            'url' => $url ?? AnalyticsHelper::getFullUrl(),
+            'referrer' => $referrer ?? AnalyticsHelper::getReferrerUrl(),
+            'utm_medium' => $utmMedium,
+            'utm_source' => $utmSource,
+            'utm_campaign' => $utmCampaign
         ];
 
         return $this->create($data);
     }
+
 
     /**
      * Tracks an event with additional information.
@@ -55,14 +69,25 @@ class AnalyticsRepository extends AbstractRepository
      *
      * @return array|null The decoded response as array or NULL, if the JSON was malformed.
      */
-    public function trackSilently(string $trackingEvent, int $eventBase, ?int $event = null, ?string $userId = null, ?string $url = null, ?string $referrer = null, ?string $utmMedium = null, ?string $utmSource = null, ?string $utmCampaign = null): ?array
+    public function trackSilently(
+        string $trackingEvent,
+        int $eventBase,
+        int | null $event = null,
+        string | null $userId = null,
+        string | null $url = null,
+        string | null $referrer = null,
+        string | null $utmMedium = null,
+        string | null $utmSource = null,
+        string | null $utmCampaign = null
+    ): array | null
     {
         try {
             return $this->track($trackingEvent, $eventBase, $event, $userId, $url, $referrer, $utmMedium, $utmSource, $utmCampaign);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
+        } catch (Throwable $e) {
+            return null;
         }
     }
+
 
     /**
      * Sets a custom user Id.
@@ -70,17 +95,19 @@ class AnalyticsRepository extends AbstractRepository
      * @param string $userId Custom user id.
      * @return $this
      */
-    public function setUserId(string $userId)
+    public function setUserId(string $userId): self
     {
         $this->userId = $userId;
 
         return $this;
     }
 
+
     public static function getEndpointPath(): string
     {
         return "analytics";
     }
+
 
     protected static function getDefaultOrdering(): string
     {

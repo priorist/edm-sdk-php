@@ -1,14 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\OAuth2\Client\Provider;
 
 use BadMethodCallException;
-
+use UnexpectedValueException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Psr\Http\Message\ResponseInterface;
-use UnexpectedValueException;
 
 class EdmProvider extends AbstractProvider
 {
@@ -28,7 +31,7 @@ class EdmProvider extends AbstractProvider
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl()
+    public function getBaseAuthorizationUrl(): void
     {
         throw new BadMethodCallException('Grant type authcode not supported by EDM.');
     }
@@ -42,7 +45,7 @@ class EdmProvider extends AbstractProvider
      * @param array $params
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params)
+    public function getBaseAccessTokenUrl(array $params): string
     {
         return $this->baseUrl . 'o/token/';
     }
@@ -54,7 +57,7 @@ class EdmProvider extends AbstractProvider
      * @param AccessToken $token
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return $this->baseUrl . 'me/';
     }
@@ -68,7 +71,7 @@ class EdmProvider extends AbstractProvider
      *
      * @return array
      */
-    protected function getDefaultScopes()
+    protected function getDefaultScopes(): array
     {
         return ['read write'];
     }
@@ -82,7 +85,7 @@ class EdmProvider extends AbstractProvider
      * @param  array|string $data Parsed response data
      * @return void
      */
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data): void
     {
         if (isset($data['error']) && !empty($data['error'])) {
             throw new IdentityProviderException($data['error'], 4711, $response);
@@ -98,7 +101,7 @@ class EdmProvider extends AbstractProvider
      * @param  AccessToken $token
      * @return ResourceOwnerInterface
      */
-    protected function createResourceOwner(array $response, AccessToken $token)
+    protected function createResourceOwner(array $response, AccessToken $token): ResourceOwnerInterface
     {
         if (isset($response['id']) && is_int($response['id']) && $response['id'] > 0) {
             return new EdmResourceOwner($response, intval($response['id']));

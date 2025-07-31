@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Priorist\EDM\Client\Repository;
 
 use Priorist\EDM\Client\Rest\RestClient;
 use Priorist\EDM\Client\Collection;
-
 
 abstract class AbstractRepository implements Repository
 {
@@ -16,7 +18,7 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function fetchSingle($idOrSlug, array $params = [], array $overrideParams = []) : ?array
+    public function fetchSingle($idOrSlug, array $params = [], array $overrideParams = []): array | null
     {
         return $this->getClient()->fetchSingle(
             static::getEndpointPath(),
@@ -26,7 +28,7 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function fetchCollection(array $params = [], array $overrideParams = []) : Collection
+    public function fetchCollection(array $params = [], array $overrideParams = []): Collection
     {
         return $this->getClient()->fetchCollection(
             static::getEndpointPath(),
@@ -35,13 +37,13 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function create(array $data = []) : ?array
+    public function create(array $data = []): ?array
     {
         return $this->getClient()->create(static::getEndpointPath(), $data);
     }
 
 
-    public function setClient(RestClient $client) : Repository
+    public function setClient(RestClient $client): self
     {
         $this->client = $client;
 
@@ -49,12 +51,12 @@ abstract class AbstractRepository implements Repository
     }
 
 
-    public function getClient() : RestClient
+    public function getClient(): RestClient
     {
         return $this->client;
     }
 
 
-    abstract public static function getEndpointPath() : string;
-    abstract protected static function getDefaultOrdering() : string;
+    abstract public static function getEndpointPath(): string;
+    abstract protected static function getDefaultOrdering(): string;
 }

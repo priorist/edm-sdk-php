@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Priorist\EDM\Helper;
 
 class AnalyticsHelper
@@ -18,28 +20,28 @@ class AnalyticsHelper
         return $fullUrl;
     }
 
+
     /**
      * Get the full URL of the referring page.
      *
      * @return string The HTTP referrer or NULL, if none was set.
      */
-    public static function getReferrerUrl(): ?string
+    public static function getReferrerUrl(): string | null
     {
-        $refUrl = null;
-
-        if (isset($_SERVER['HTTP_REFERRER']) && !empty($server['HTTP_REFERER'])) {
-            $refUrl = $server['HTTP_REFERER'];
+        if (isset($_SERVER['HTTP_REFERRER'])) {
+            return $_SERVER['HTTP_REFERRER'];
         }
 
-        return $refUrl;
+        return null;
     }
+
 
     /**
      * Get a SHA-256 hashed user id based on ip address and user agent
      *
      * @return string The hashed user id or NULL, if no ip address or user agent is available.
      */
-    public static function getHashedUserId(): ?string
+    public static function getHashedUserId(): string | null
     {
         $hashedUserId = null;
         $userAgent = self::getUserAgent();
@@ -52,7 +54,8 @@ class AnalyticsHelper
         return $hashedUserId;
     }
 
-    protected static function getIpAddress(): ?string
+
+    protected static function getIpAddress(): string | null
     {
         $ip = null;
 
@@ -63,14 +66,13 @@ class AnalyticsHelper
         return $ip;
     }
 
-    protected static function getUserAgent(): ?string
-    {
-        $userAgent = null;
 
-        if (isset($_SERVER['HTTP_USER_AGENT']) && !empty($server['HTTP_USER_AGENT'])) {
-            $userAgent = $server['HTTP_USER_AGENT'];
+    protected static function getUserAgent(): string | null
+    {
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            return $_SERVER['HTTP_USER_AGENT'];
         }
 
-        return $userAgent;
+        return null;
     }
 }
