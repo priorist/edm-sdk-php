@@ -1,21 +1,17 @@
 <?php
+
 namespace Priorist\EDM\Client\Rest;
 
-use Exception;
 use InvalidArgumentException;
-use RuntimeException;
 use UnexpectedValueException;
-
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-
 use Priorist\EDM\Client\Collection;
 use Priorist\EDM\Client\User;
 use Priorist\EDM\Helper\ArrayHelper;
-
 
 class EdmClient implements RestClient
 {

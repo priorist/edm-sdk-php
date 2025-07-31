@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
 
     composer:
@@ -29,10 +27,6 @@ services:
             EDM_URL: ${EDM_URL}
             CLIENT_ID: ${CLIENT_ID}
             CLIENT_SECRET: ${CLIENT_SECRET}
-            CLIENT_ID_USER: ${CLIENT_ID_USER}
-            CLIENT_SECRET_USER: ${CLIENT_SECRET_USER}
-            USER_LOGIN: ${USER_LOGIN}
-            USER_PASSWORD: ${USER_PASSWORD}
 
 
     docs:
