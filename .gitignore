@@ -6,3 +6,4 @@ compose.override.yml
 .phpdoc
 .vscode
 /.phpunit.cache
+.DS_Store
