@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Priorist\EDM\Client\Repository;
 
-class UserListDataRepository extends AbstractRepository
+class UserListRepository extends AbstractRepository
 {
   public function bulkCreate(array $data): array|null
   {
