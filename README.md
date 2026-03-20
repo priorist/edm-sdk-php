@@ -171,6 +171,62 @@ try {
 echo $enrollment['id']; // Holds the resulting ID on success.
 ```
 
+### Users
+
+#### Create user
+
+```php
+use Priorist\EDM\Client\Rest\ClientException;
+
+$user = [
+    'first_name'                    => 'John',
+    'last_name'                     => 'Doe',
+    'title'                         => 'M',
+    'main_contact_info'             => [
+        'email' => 'john@doe.com'
+    ],
+    'prevent_duplicates'            => true,
+];
+
+try {
+    $user = $client->user->create($user);
+} catch (ClientException $e) {
+    $errors = $e->getDetails(); // Contains errors for missing/invalid fields/values
+}
+
+echo $user['id']; // Holds the resulting ID on success.
+```
+
+### User Lists
+
+#### Add user to list(s)
+
+```php
+use Priorist\EDM\Client\Rest\ClientException;
+
+$lists = [
+    'data' => [
+        'list_data' => [
+            [
+                'user_list' => 1,
+                'user' => 42,
+            ],
+            [
+                'user_list' => 2,
+                'user' => 42,
+            ],
+        ],
+        'consent_method' => 'trigger_confirmation',
+    ]
+];
+
+try {
+    $lists = $client->userList->createBulk($lists);
+} catch (ClientException $e) {
+    $errors = $e->getDetails(); // Contains errors for missing/invalid fields/values
+}
+```
+
 ### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
