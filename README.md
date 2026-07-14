@@ -227,6 +227,16 @@ try {
 }
 ```
 
+#### Fetch lists by ID
+
+```php
+$userLists = $client->userLists->findByIds([1, 2]);
+
+foreach ($userLists as $userList) {
+    echo $userList['name'] . "\n";
+}
+```
+
 ### Generic requests
 
 If you do not find a suitable method of a given repository, you may use the more
